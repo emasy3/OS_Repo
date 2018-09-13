@@ -232,8 +232,7 @@ module TSOS {
 
         public shellMan(args) {
             if (args.length > 0) {
-                var topic = args[0];
-                switch (topic) {
+                switch (args[0]) {
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
@@ -242,7 +241,7 @@ module TSOS {
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
             } else {
-                _StdOut.putText("Usage: man <topic>  Please supply a topic.");
+                _StdOut.putText("Usage: man <topic>  Please specify a topic.");
             }
         }
 
