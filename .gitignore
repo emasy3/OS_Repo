@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+*.iml
+
+#ignore node modules folder#
+OS_Repo/node_modules
