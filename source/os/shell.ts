@@ -82,6 +82,23 @@ module TSOS {
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
+            //Date
+            sc = new ShellCommand(this.shellDate,
+                                    "date",
+                                   "- Displays the date and time.");
+            this.commandList[this.commandList.length] = sc;
+
+            //Wherami
+            sc = new ShellCommand(this.shellWhereami,
+                                     "whereami",
+                                    "- Displays where user is in file hierarchy.");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellMusic,
+                                     "serenade",
+                                    "- Plays lovely classical music to sooth user's ears.");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -309,6 +326,22 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
+        }
+
+        public shellDate(args) {
+            var d = Date();
+            _StdOut.putText("The date is " + d.toString());
+        }
+
+        public shellWhereami(args){
+            _StdOut.putText("root/");
+        }
+
+        public shellMusic(args){
+            let audio = new Audio();
+            audio.src = "../assets/fourSeasons.mp3";
+            audio.load();
+            audio.play();
         }
 
     }
