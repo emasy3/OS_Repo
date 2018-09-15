@@ -33,8 +33,11 @@ module TSOS {
 
             // ver
             sc = new ShellCommand(this.shellVer,
-                                  "ver",
-                                  "- Displays the current version data.");
+                                 "ver",
+                                 "- Displays the current version data.",
+                                 "version",
+                                 "v",
+                                "   Alternatives: v and version");
             this.commandList[this.commandList.length] = sc;
 
             // help
@@ -109,11 +112,27 @@ module TSOS {
             var found: boolean = false;
             var fn = undefined;
             while (!found && index < this.commandList.length) {
-                if (this.commandList[index].command === cmd) {
-                    found = true;
-                    fn = this.commandList[index].func;
-                } else {
-                    ++index;
+                switch(cmd){
+                    case this.commandList[index].command:{
+                        found = true;
+                        fn = this.commandList[index].func;
+                        break;
+                    }
+                    case this.commandList[index].command1:{
+                        found = true;
+                        fn = this.commandList[index].func;
+                        break;
+                    }
+                    case this.commandList[index].command2:{
+                        found = true;
+                        fn = this.commandList[index].func;
+                        break;
+                    }
+
+                    default: {
+                        ++index;
+                        break;
+                    }
                 }
             }
             if (found) {
@@ -214,7 +233,13 @@ module TSOS {
             _StdOut.putText("Commands:");
             for (var i in _OsShell.commandList) {
                 _StdOut.advanceLine();
-                _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
+                if(_OsShell.commandList[i].description1){
+                    _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
+                    _StdOut.advanceLine();
+                    _StdOut.putText("  " + _OsShell.commandList[i].description1);
+                }else{
+                    _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
+                }
             }
         }
 
