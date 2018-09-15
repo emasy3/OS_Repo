@@ -2,6 +2,7 @@
 // glados.js - It's for testing. And enrichment.
 //
 
+
 function Glados() {
    this.version = 2112;
 
@@ -14,18 +15,28 @@ function Glados() {
 
    this.afterStartup = function() {
 
-      // Test the 'help' command.
-      _KernelInputQueue.enqueue('h');
-      _KernelInputQueue.enqueue('e');
-      _KernelInputQueue.enqueue('l');
-      _KernelInputQueue.enqueue('p');
-		TSOS.Kernel.prototype.krnInterruptHandler(KEYBOARD_IRQ, [13, false]);
-		
-		// Test the 'ver' command.
+      // Test the 'ver' command.
       _KernelInputQueue.enqueue('v');
       _KernelInputQueue.enqueue('e');
       _KernelInputQueue.enqueue('r');
 		TSOS.Kernel.prototype.krnInterruptHandler(KEYBOARD_IRQ, [13, false]);
+
+       // Test alternate command 'vers90j'.
+       _KernelInputQueue.enqueue('v');
+       _KernelInputQueue.enqueue('e');
+       _KernelInputQueue.enqueue('r');
+       _KernelInputQueue.enqueue('s');
+       _KernelInputQueue.enqueue('i');
+       _KernelInputQueue.enqueue('o');
+       _KernelInputQueue.enqueue('n');
+       TSOS.Kernel.prototype.krnInterruptHandler(KEYBOARD_IRQ, [13, false]);
+
+       // Test alternate command 'v'.
+       _KernelInputQueue.enqueue('v');
+       TSOS.Kernel.prototype.krnInterruptHandler(KEYBOARD_IRQ, [13, false]);
+
+
+
 
    };
 }
