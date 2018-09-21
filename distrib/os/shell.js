@@ -23,10 +23,14 @@ var TSOS;
         }
         Shell.prototype.init = function () {
             var sc;
+            var date = Date();
+            var state = "Running";
+            document.getElementById("dateText").innerHTML = "Date: " + date;
+            document.getElementById("statusText").innerHTML = "Status: " + state;
             //
             // Load the command list.
             // ver
-            sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.", "version", "v", "   Alternatives: v and version");
+            sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.", "version", "v", "   - Alternatives: v and version");
             this.commandList[this.commandList.length] = sc;
             // help
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
@@ -55,7 +59,9 @@ var TSOS;
             //Wherami
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Displays where user is in file hierarchy.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellMusic, "serenade", "- Plays lovely classical music to sooth user's ears.");
+            sc = new TSOS.ShellCommand(this.shellMagic, "magic8", "<string> - A magic8 ball.", null, null, "   - Type magic8 followed by a question/statement.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Displays user set status");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -281,11 +287,34 @@ var TSOS;
         Shell.prototype.shellWhereami = function (args) {
             _StdOut.putText("root/");
         };
-        Shell.prototype.shellMusic = function (args) {
-            var audio = new Audio();
-            audio.src = "../assets/fourSeasons.mp3";
-            audio.load();
-            audio.play();
+        Shell.prototype.shellMagic = function (args) {
+            if (args.length > 0) {
+                var sides = ["Don't count on it.", "As I see it, yes.",
+                    "It is certain", "Reply hazy, try again.", "My reply is no.",
+                    "Most likely", "It is decidedly so.", "Ask again later",
+                    "My sources say no.", "Outlook good.", "Without a doubt.",
+                    "Better not tell you now.", "Outlook not so good.", "Signs point to yes.",
+                    "Yes - definitely.", "Cannot predict now.", "Very doubtful", "Yes",
+                    "You may rely on it.", "Concentrate and ask again."];
+                var selector = sides[Math.floor(Math.random() * sides.length)];
+                _StdOut.putText(selector);
+            }
+            else {
+                _StdOut.putText("No parameter found.");
+                _StdOut.advanceLine();
+                _StdOut.putText("Please end the command with a question/statement");
+            }
+        };
+        Shell.prototype.shellStatus = function (args) {
+            if (args.length > 0) {
+                for (var i = 0; i < args.length; i++) {
+                    var sent = sent + args[i] + " ";
+                }
+                document.getElementById("statusText").innerHTML = "Status: " + sent;
+            }
+            else {
+                _StdOut.putText("Usage: status <string>  Please specify a string.");
+            }
         };
         return Shell;
     }());

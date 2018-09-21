@@ -28,6 +28,10 @@ module TSOS {
 
         public init() {
             var sc;
+            var date = Date();
+            var state = "Running"
+            document.getElementById("dateText").innerHTML = "Date: " + date;
+            document.getElementById("statusText").innerHTML = "Status: " + state;
             //
             // Load the command list.
 
@@ -37,7 +41,7 @@ module TSOS {
                                  "- Displays the current version data.",
                                  "version",
                                  "v",
-                                "   Alternatives: v and version");
+                                "   - Alternatives: v and version");
             this.commandList[this.commandList.length] = sc;
 
             // help
@@ -94,9 +98,17 @@ module TSOS {
                                     "- Displays where user is in file hierarchy.");
             this.commandList[this.commandList.length] = sc;
 
-            sc = new ShellCommand(this.shellMusic,
-                                     "serenade",
-                                    "- Plays lovely classical music to sooth user's ears.");
+            sc = new ShellCommand(this.shellMagic,
+                                     "magic8",
+                                    "<string> - A magic8 ball.",
+                                                null,
+                                                null,
+                                                "   - Type magic8 followed by a question/statement.");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellStatus,
+                                     "status",
+                                    "<string> - Displays user set status");
             this.commandList[this.commandList.length] = sc;
 
             // ps  - list the running processes and their IDs
@@ -337,11 +349,38 @@ module TSOS {
             _StdOut.putText("root/");
         }
 
-        public shellMusic(args){
-            let audio = new Audio();
-            audio.src = "../assets/fourSeasons.mp3";
-            audio.load();
-            audio.play();
+        public shellMagic(args){
+
+            if(args.length > 0){
+
+                var sides = ["Don't count on it.", "As I see it, yes.",
+                    "It is certain", "Reply hazy, try again.", "My reply is no.",
+                    "Most likely", "It is decidedly so.", "Ask again later",
+                    "My sources say no.", "Outlook good.", "Without a doubt.",
+                    "Better not tell you now.", "Outlook not so good.", "Signs point to yes.",
+                    "Yes - definitely.", "Cannot predict now.", "Very doubtful", "Yes",
+                    "You may rely on it.", "Concentrate and ask again."];
+
+                var selector = sides[Math.floor(Math.random()*sides.length)];
+                _StdOut.putText(selector);
+
+            }else{
+                _StdOut.putText("No parameter found.")
+                _StdOut.advanceLine();
+                _StdOut.putText("Please end the command with a question/statement");
+            }
+        }
+
+        public shellStatus(args){
+            if(args.length > 0){
+                for( let i = 0; i < args.length; i++){
+                    var sent = sent + args[i] + " ";
+                }
+                document.getElementById("statusText").innerHTML = "Status: " + sent;
+            } else {
+                _StdOut.putText("Usage: status <string>  Please specify a string.");
+
+            }
         }
 
     }

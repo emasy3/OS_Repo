@@ -7,6 +7,17 @@
    <title>
       TSOS - a browser-based virtual Operating System in TypeScript
    </title>
+    <!-- jquery for bootstrap -->
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
    <script type="text/javascript" src="distrib/globals.js"></script>
@@ -31,63 +42,73 @@
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment the line below to enable GLaDOS testing. -->
-   <script type="text/javascript" src="test/glados-ip0.js"></script>
+   <script type="text/javascript" src="test/verTest-ip0.js"></script>
    
 </head>
 
 <body onload="onDocumentLoad()">
 
 <div id="divMain" style="width:100%;">
+   <div class="row">
+      <div class="col-sm-6" id="divButtonBar">
+         <input type="button"
+                id = "btnStartOS"
+                name="brnStartOS"
+                class="normal_button"
+                value="Start"
+                tabindex="0"
+                onclick="TSOS.Control.hostBtnStartOS_click(this);">
 
-   <div id="divButtonBar" style="margin:4px;">
-      <input type="button"
-             id = "btnStartOS"
-             name="brnStartOS"
-             class="normal_button"
-             value="Start"
-             tabindex="0"
-             onclick="TSOS.Control.hostBtnStartOS_click(this);">
+         <input type="button"
+                id = "btnHaltOS"
+                name="brnHaltOS"
+                class="normal_button"
+                disabled="disabled"
+                value="Halt"
+                tabindex="1"
+                onclick="TSOS.Control.hostBtnHaltOS_click(this);">
 
-      <input type="button"
-             id = "btnHaltOS"
-             name="brnHaltOS"
-             class="normal_button"
-             disabled="disabled"
-             value="Halt"
-             tabindex="1"
-             onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+         <input type="button"
+                id = "btnReset"
+                name="brnReset"
+                class="normal_button"
+                disabled="disabled"
+                value="Reset"
+                tabindex="2"
+                onclick="TSOS.Control.hostBtnReset_click(this);">
+      </div>
+       <div class="card col-sm-6" id="statusCard">
+           <h3 class="card-header" id="dateText" style="margin: 0; text-align: left;">Date:</h3>
+           <div class="card card-body">
+               <h3 class="card-text" id="statusText" style="text-align: Left; ">Status: </h3>
+           </div>
+       </div>
 
-      <input type="button"
-             id = "btnReset"
-             name="brnReset"
-             class="normal_button"
-             disabled="disabled"
-             value="Reset"
-             tabindex="2"
-             onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
 
-   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
-      <canvas id="display"
-              width="500px"
-              height="500px"
-              tabindex="3">
-      </canvas>
+   <div class="row" id="logRow">
+       <div class="col-sm-6" id="divConsole">
+          <canvas id="display"
+                  width="600px"
+                  height="500px"
+                  tabindex="3">
+          </canvas>
+       </div>
+
+       <div class="col-sm-6" id="divLog">
+          <label id="hostLog">
+             Host Log
+             <br>
+             <textarea class="form-control" name="taHostLog"
+                       id  ="taHostLog"
+                       rows="22"
+                       cols="55"
+             ></textarea>
+          </label>
+       </div>
    </div>
 
-   <div id="divLog" style="margin-left:520px;">
-      <label>
-         Host Log
-         <br>
-         <textarea name="taHostLog"
-                   id  ="taHostLog"
-                   rows="26"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
-
-   <div id="divUserProgramInput" style="margin-left:520px;">
+   <div id="divUserProgramInput">
       <label>
          User Program Input
          <br>
