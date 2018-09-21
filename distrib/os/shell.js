@@ -20,13 +20,13 @@ var TSOS;
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
             this.apologies = "[sorry]";
+            this.shellState = "Running";
         }
         Shell.prototype.init = function () {
             var sc;
             var date = Date();
-            var state = "Running";
             document.getElementById("dateText").innerHTML = "Date: " + date;
-            document.getElementById("statusText").innerHTML = "Status: " + state;
+            document.getElementById("statusText").innerHTML = "Status: " + this.shellState;
             //
             // Load the command list.
             // ver
@@ -306,14 +306,18 @@ var TSOS;
             }
         };
         Shell.prototype.shellStatus = function (args) {
+            this.shellState = "Running";
+            var myState = this.shellState;
             if (args.length > 0) {
+                var sent = "";
                 for (var i = 0; i < args.length; i++) {
-                    var sent = sent + args[i] + " ";
+                    sent = sent + args[i] + " ";
                 }
                 document.getElementById("statusText").innerHTML = "Status: " + sent;
             }
             else {
                 _StdOut.putText("Usage: status <string>  Please specify a string.");
+                document.getElementById("statusText").innerHTML = "Status: " + myState;
             }
         };
         return Shell;

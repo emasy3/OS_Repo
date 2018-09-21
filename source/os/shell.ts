@@ -22,6 +22,7 @@ module TSOS {
         public commandList = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
+        public shellState = "Running";
 
         constructor() {
         }
@@ -29,9 +30,8 @@ module TSOS {
         public init() {
             var sc;
             var date = Date();
-            var state = "Running"
             document.getElementById("dateText").innerHTML = "Date: " + date;
-            document.getElementById("statusText").innerHTML = "Status: " + state;
+            document.getElementById("statusText").innerHTML = "Status: " + this.shellState;
             //
             // Load the command list.
 
@@ -341,7 +341,7 @@ module TSOS {
         }
 
         public shellDate(args) {
-            var d = Date();
+            let d = Date();
             _StdOut.putText("The date is " + d.toString());
         }
 
@@ -353,7 +353,7 @@ module TSOS {
 
             if(args.length > 0){
 
-                var sides = ["Don't count on it.", "As I see it, yes.",
+                let sides = ["Don't count on it.", "As I see it, yes.",
                     "It is certain", "Reply hazy, try again.", "My reply is no.",
                     "Most likely", "It is decidedly so.", "Ask again later",
                     "My sources say no.", "Outlook good.", "Without a doubt.",
@@ -361,7 +361,7 @@ module TSOS {
                     "Yes - definitely.", "Cannot predict now.", "Very doubtful", "Yes",
                     "You may rely on it.", "Concentrate and ask again."];
 
-                var selector = sides[Math.floor(Math.random()*sides.length)];
+                let selector = sides[Math.floor(Math.random()*sides.length)];
                 _StdOut.putText(selector);
 
             }else{
@@ -372,13 +372,18 @@ module TSOS {
         }
 
         public shellStatus(args){
+            this.shellState = "Running"
+            let myState = this.shellState;
             if(args.length > 0){
+                let sent = "";
                 for( let i = 0; i < args.length; i++){
-                    var sent = sent + args[i] + " ";
+                    sent = sent + args[i] + " ";
+
                 }
                 document.getElementById("statusText").innerHTML = "Status: " + sent;
             } else {
                 _StdOut.putText("Usage: status <string>  Please specify a string.");
+                document.getElementById("statusText").innerHTML = "Status: " + myState;
 
             }
         }
