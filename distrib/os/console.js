@@ -83,6 +83,19 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             // TODO: Handle scrolling. (iProject 1)
+            var changeYPosition = this.currentYPosition + _DefaultFontSize +
+                _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                _FontHeightMargin;
+            if (this.currentYPosition > 400) {
+                var savedImg = _DrawingContext.canvas.toDataURL();
+                _DrawingContext.canvas.height = changeYPosition + 3;
+                var newImg = new Image();
+                newImg.src = savedImg;
+                newImg.onload = function () {
+                    _DrawingContext.drawImage(newImg, 0, 0);
+                };
+            }
+            document.getElementById("divConsole").scrollTop = changeYPosition;
         };
         return Console;
     }());

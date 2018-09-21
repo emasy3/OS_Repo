@@ -11,6 +11,7 @@
 
 module TSOS {
 
+
     export class Console {
 
         constructor(public currentFont = _DefaultFontFamily,
@@ -81,11 +82,31 @@ module TSOS {
              * Font descent measures from the baseline to the lowest point in the font.
              * Font height margin is extra spacing between the lines.
              */
-            this.currentYPosition += _DefaultFontSize + 
+            this.currentYPosition += _DefaultFontSize +
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
 
             // TODO: Handle scrolling. (iProject 1)
+            var changeYPosition = this.currentYPosition + _DefaultFontSize +
+                _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                _FontHeightMargin;
+
+            if(this.currentYPosition > 400){
+                var savedImg = _DrawingContext.canvas.toDataURL();
+                _DrawingContext.canvas.height = changeYPosition + 3;
+                var newImg = new Image();
+                newImg.src = savedImg;
+                newImg.onload = function () {
+                    _DrawingContext.drawImage(newImg, 0, 0);
+                }
+            }
+            document.getElementById("divConsole").scrollTop = changeYPosition;
+
+
+
+
+
+
         }
     }
  }
