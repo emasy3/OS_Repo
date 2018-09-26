@@ -101,9 +101,9 @@ module TSOS {
             sc = new ShellCommand(this.shellMagic,
                                      "magic8",
                                     "<string> - A magic8 ball.",
-                                                null,
-                                                null,
-                                                "   - Type magic8 followed by a question/statement.");
+                                    null,
+                                    null,
+                                   "   - Type magic8 followed by a question/statement.");
             this.commandList[this.commandList.length] = sc;
 
             sc = new ShellCommand(this.shellStatus,
@@ -351,7 +351,7 @@ module TSOS {
 
         public shellMagic(args){
 
-            if(args.length > 0){
+            if((args.length > 0) && (_Console.buffer[_Console.buffer.length -1] == "?")){
 
                 let sides = ["Don't count on it.", "As I see it, yes.",
                     "It is certain", "Reply hazy, try again.", "My reply is no.",
@@ -363,11 +363,12 @@ module TSOS {
 
                 let selector = sides[Math.floor(Math.random()*sides.length)];
                 _StdOut.putText(selector);
+                console.log(_Console.buffer);
 
             }else{
-                _StdOut.putText("No parameter found.")
-                _StdOut.advanceLine();
-                _StdOut.putText("Please end the command with a question/statement");
+                console.log("No parameter found for " + args[0]);
+                console.log(args[0]);
+                _StdOut.putText("Please end the command with a question. ex: \'me?\'");
             }
         }
 

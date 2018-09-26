@@ -288,7 +288,7 @@ var TSOS;
             _StdOut.putText("root/");
         };
         Shell.prototype.shellMagic = function (args) {
-            if (args.length > 0) {
+            if ((args.length > 0) && (_Console.buffer[_Console.buffer.length - 1] == "?")) {
                 var sides = ["Don't count on it.", "As I see it, yes.",
                     "It is certain", "Reply hazy, try again.", "My reply is no.",
                     "Most likely", "It is decidedly so.", "Ask again later",
@@ -298,11 +298,12 @@ var TSOS;
                     "You may rely on it.", "Concentrate and ask again."];
                 var selector = sides[Math.floor(Math.random() * sides.length)];
                 _StdOut.putText(selector);
+                console.log(_Console.buffer);
             }
             else {
-                _StdOut.putText("No parameter found.");
-                _StdOut.advanceLine();
-                _StdOut.putText("Please end the command with a question/statement");
+                console.log("No parameter found for " + args[0]);
+                console.log(args[0]);
+                _StdOut.putText("Please end the command with a question. ex: \'me?\'");
             }
         };
         Shell.prototype.shellStatus = function (args) {

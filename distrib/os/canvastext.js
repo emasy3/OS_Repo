@@ -41,6 +41,10 @@ var TSOS;
             }
             return total;
         };
+        CanvasTextFunctions.clearChar = function (x, y, width, height, ctx) {
+            console.log(ctx);
+            ctx.clearRect(x, y, width, height);
+        };
         CanvasTextFunctions.draw = function (ctx, font, size, x, y, str) {
             var total = 0;
             var len = str.length;
@@ -89,6 +93,9 @@ var TSOS;
             ctx.drawTextCenter = function (font, size, x, y, text) {
                 var w = CanvasTextFunctions.measure(font, size, text);
                 return CanvasTextFunctions.draw(ctx, font, size, x - w / 2, y, text);
+            };
+            ctx.fontClear = function (x, y, width, hieght, ctx) {
+                return CanvasTextFunctions.clearChar(x, y, width, hieght, ctx);
             };
         };
         CanvasTextFunctions.symbols = {

@@ -30,6 +30,9 @@ var TSOS;
             }
             return retVal;
         };
+        Queue.prototype.getArray = function () {
+            return this.q.toString();
+        };
         Queue.prototype.toString = function () {
             var retVal = "";
             for (var i in this.q) {
