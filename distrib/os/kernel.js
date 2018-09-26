@@ -156,7 +156,7 @@ var TSOS;
             TSOS.Control.hostLog("OS ERROR - TRAP: " + msg);
             // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
             _StdOut.advanceLine(20);
-            TSOS.Utils.changeColor("#6495ED");
+            TSOS.Utils.changeColor("#4C4CFF");
             console.log("hi");
             _StdOut.putText("OS ERROR - TRAP: " + msg);
             this.krnShutdown();
