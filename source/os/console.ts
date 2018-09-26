@@ -205,7 +205,10 @@ module TSOS {
             }
          }
 
-        public advanceLine(): void {
+        public advanceLine(num?): void {
+            for(var i: number = 0; i <= num; i++){
+                this.advanceLine();
+            }
             this.currentXPosition = 0;
             /*
              * Font size measures from the baseline to the highest point in the font.

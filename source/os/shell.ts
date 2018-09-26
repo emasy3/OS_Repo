@@ -111,6 +111,10 @@ module TSOS {
                                     "<string> - Displays user set status");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellBlue,
+                                    "bsod",
+                                   "<string> - Displays blue screen of death");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -387,6 +391,11 @@ module TSOS {
                 document.getElementById("statusText").innerHTML = "Status: " + myState;
 
             }
+        }
+
+        public shellBlue(){
+            var msg = "Your system has ran into a problem and needs to restart."
+            _Kernel.krnTrapError(msg);
         }
 
     }

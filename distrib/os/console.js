@@ -202,7 +202,10 @@ var TSOS;
                 this.currentXPosition = this.currentXPosition + offset;
             }
         };
-        Console.prototype.advanceLine = function () {
+        Console.prototype.advanceLine = function (num) {
+            for (var i = 0; i <= num; i++) {
+                this.advanceLine();
+            }
             this.currentXPosition = 0;
             /*
              * Font size measures from the baseline to the highest point in the font.

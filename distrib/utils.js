@@ -44,6 +44,11 @@ var TSOS;
             }
             return retVal;
         };
+        Utils.changeColor = function (string) {
+            _DrawingContext.fillStyle = "" + string;
+            _DrawingContext.fillRect(0, 0, _DrawingContext.canvas.width, _DrawingContext.canvas.height);
+            console.log(_DrawingContext.canvas.height);
+        };
         return Utils;
     }());
     TSOS.Utils = Utils;

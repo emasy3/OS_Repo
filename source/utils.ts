@@ -43,5 +43,11 @@ module TSOS {
             }
             return retVal;
         }
+
+        public static changeColor(string): void{
+            _DrawingContext.fillStyle = "" + string;
+            _DrawingContext.fillRect(0, 0, _DrawingContext.canvas.width, _DrawingContext.canvas.height);
+            console.log(_DrawingContext.canvas.height);
+        }
     }
 }
