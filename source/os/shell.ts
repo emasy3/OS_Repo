@@ -115,6 +115,11 @@ module TSOS {
                                     "bsod",
                                    "<string> - Displays blue screen of death");
             this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellLoad,
+                                    "load",
+                                   "<string> - Validates user code");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -396,6 +401,125 @@ module TSOS {
         public shellBlue(){
             var msg = "Your system has ran into a problem and needs to restart."
             _Kernel.krnTrapError(msg);
+        }
+
+        public shellLoad(){
+            var doc = (<HTMLInputElement> document.getElementById("taProgramInput")).value;
+            var a = doc.toString();
+            var arr = [a][0];
+            var isValid = true;
+            var endOf = false;
+            var current;
+
+            if(a.length > 0){
+                while(isValid && !endOf){
+                    for(let i = 0; i < arr.length; i++){
+                        switch (arr[i]) {
+                            case "0":
+                                current = 0;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "1":
+                                current = 1;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "2":
+                                current = 2;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "3":
+                                current = 3;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "4":
+                                current = 4;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "5":
+                                current = 5;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "6":
+                                current = 6;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "7":
+                                current = 7;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "8":
+                                current = 8;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "9":
+                                current = 9;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "A":
+                                current = 10;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "B":
+                                current = 11;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "C":
+                                current = 12;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "D":
+                                current = 13;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "E":
+                                current = 14;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case "F":
+                                current = 15;
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                            case " ":
+                                current = " ";
+                                console.log(current);
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+
+                            default:
+                                isValid = false;
+                                current = arr[i].toString();
+                                if(i == (arr.length -1)){endOf = true;}
+                                break;
+                        }
+                    }
+                }
+                //if we run into a character we dont have a case for, i.e. the default
+                if(!isValid){
+                    _StdOut.putText("Invalid Program Data at: ");
+                    _StdOut.advanceLine();
+                    _StdOut.putText("   Instance: " + current);
+                    _StdOut.advanceLine();
+                }else{
+                    console.log(arr);
+                    _StdOut.putText("Program input accepted");
+                }
+            }
         }
 
     }
