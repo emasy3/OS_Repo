@@ -362,7 +362,7 @@ module TSOS {
             _StdOut.putText("root/"); //placeholder command for something more substantial
         }
 
-        public shellMagic(args){
+        static shellMagic(args){
             //creates an 8 ball array if args is not empty and if the buffer ends with a question mark
             if((args.length > 0) && (_Console.buffer[_Console.buffer.length -1] == "?")){
                 let sides = ["Don't count on it.", "As I see it, yes.",

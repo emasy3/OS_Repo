@@ -295,7 +295,7 @@ var TSOS;
         Shell.prototype.shellWhereami = function (args) {
             _StdOut.putText("root/"); //placeholder command for something more substantial
         };
-        Shell.prototype.shellMagic = function (args) {
+        Shell.shellMagic = function (args) {
             //creates an 8 ball array if args is not empty and if the buffer ends with a question mark
             if ((args.length > 0) && (_Console.buffer[_Console.buffer.length - 1] == "?")) {
                 var sides = ["Don't count on it.", "As I see it, yes.",
