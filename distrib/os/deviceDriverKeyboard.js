@@ -64,9 +64,10 @@ var TSOS;
             else if (((keyCode >= 48) && (keyCode <= 63)) || // digits
                 (keyCode >= 32) || // space
                 (keyCode == 13) || // enter
-                (keyCode >= 186) && (keyCode <= 192) ||
-                (keyCode >= 219) && (keyCode <= 222) ||
-                (keyCode >= 37) && (keyCode <= 40)) {
+                (keyCode >= 186) && (keyCode <= 192) || //special chars
+                (keyCode >= 219) && (keyCode <= 222) || //sc
+                (keyCode >= 37) && (keyCode <= 40)) //arrows
+             {
                 if (isShifted) {
                     switch (keyCode) {
                         case 48:

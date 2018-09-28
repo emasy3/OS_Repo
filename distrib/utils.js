@@ -44,6 +44,7 @@ var TSOS;
             }
             return retVal;
         };
+        //function to change the color of the canvas using the context
         Utils.changeColor = function (string) {
             _DrawingContext.fillStyle = "" + string;
             _DrawingContext.fillRect(0, 0, _DrawingContext.canvas.width, _DrawingContext.canvas.height);

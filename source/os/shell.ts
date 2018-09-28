@@ -35,7 +35,7 @@ module TSOS {
             //
             // Load the command list.
 
-            // ver
+            // ver with alternate command options
             sc = new ShellCommand(this.shellVer,
                                  "ver",
                                  "- Displays the current version data.",
@@ -98,7 +98,8 @@ module TSOS {
                                     "- Displays where user is in file hierarchy.");
             this.commandList[this.commandList.length] = sc;
 
-            sc = new ShellCommand(this.shellMagic,
+            //magic8 ball
+            sc = new ShellCommand(TSOS.Shell.shellMagic,
                                      "magic8",
                                     "<string> - A magic8 ball.",
                                     null,
@@ -106,16 +107,19 @@ module TSOS {
                                    "   - Type magic8 followed by a question/statement.");
             this.commandList[this.commandList.length] = sc;
 
+            //status
             sc = new ShellCommand(this.shellStatus,
                                      "status",
                                     "<string> - Displays user set status");
             this.commandList[this.commandList.length] = sc;
 
+            //blue screen of death
             sc = new ShellCommand(this.shellBlue,
                                     "bsod",
                                    "<string> - Displays blue screen of death");
             this.commandList[this.commandList.length] = sc;
 
+            //load
             sc = new ShellCommand(this.shellLoad,
                                     "load",
                                    "<string> - Validates user code");
@@ -351,17 +355,16 @@ module TSOS {
 
         public shellDate(args) {
             let d = Date();
-            _StdOut.putText("The date is " + d.toString());
+            _StdOut.putText("The date is " + d.toString()); //prints date
         }
 
         public shellWhereami(args){
-            _StdOut.putText("root/");
+            _StdOut.putText("root/"); //placeholder command for something more substantial
         }
 
         public shellMagic(args){
-
+            //creates an 8 ball array if args is not empty and if the buffer ends with a question mark
             if((args.length > 0) && (_Console.buffer[_Console.buffer.length -1] == "?")){
-
                 let sides = ["Don't count on it.", "As I see it, yes.",
                     "It is certain", "Reply hazy, try again.", "My reply is no.",
                     "Most likely", "It is decidedly so.", "Ask again later",
@@ -369,11 +372,10 @@ module TSOS {
                     "Better not tell you now.", "Outlook not so good.", "Signs point to yes.",
                     "Yes - definitely.", "Cannot predict now.", "Very doubtful", "Yes",
                     "You may rely on it.", "Concentrate and ask again."];
-
-                let selector = sides[Math.floor(Math.random()*sides.length)];
-                _StdOut.putText(selector);
+                let selector = sides[Math.floor(Math.random()*sides.length)]; //performs a random selection
+                _StdOut.putText(selector);                                       //prints selection
+                //debug
                 console.log(_Console.buffer);
-
             }else{
                 console.log("No parameter found for " + args[0]);
                 console.log(args[0]);
@@ -382,7 +384,7 @@ module TSOS {
         }
 
         public shellStatus(args){
-            this.shellState = "Running"
+                                                            //command to be changed, sets status to whatever is specified, otherwise its running.
             let myState = this.shellState;
             if(args.length > 0){
                 let sent = "";
@@ -399,12 +401,13 @@ module TSOS {
         }
 
         public shellBlue(){
-            var msg = "Your system has ran into a problem and needs to restart."
+            var msg = "Your system has ran into a problem and needs to restart.";    //bsod
             _Kernel.krnTrapError(msg);
         }
 
         public shellLoad(){
-            var doc = (<HTMLInputElement> document.getElementById("taProgramInput")).value;
+            //load user input and check that its hex
+            var doc = (<HTMLInputElement> document.getElementById("taProgramInput")).value; //get value of doc
             var a = doc.toString();
             var arr = [a][0];
             var isValid = true;
@@ -415,11 +418,11 @@ module TSOS {
                 while(isValid && !endOf){
                     for(let i = 0; i < arr.length; i++){
                         switch (arr[i]) {
-                            case "0":
-                                current = 0;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
+                            case "0":                                               //check the current value
+                                current = 0;                                       //set our holder
+                                console.log(current);                               //debugging
+                                if(i == (arr.length -1)){endOf = true;}            //check if i is the size of length-1
+                                break;                                             //and set our boolean to stop while
                             case "1":
                                 current = 1;
                                 console.log(current);

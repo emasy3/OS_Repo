@@ -29,7 +29,7 @@ var TSOS;
             document.getElementById("statusText").innerHTML = "Status: " + this.shellState;
             //
             // Load the command list.
-            // ver
+            // ver with alternate command options
             sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.", "version", "v", "   - Alternatives: v and version");
             this.commandList[this.commandList.length] = sc;
             // help
@@ -59,12 +59,16 @@ var TSOS;
             //Wherami
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Displays where user is in file hierarchy.");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellMagic, "magic8", "<string> - A magic8 ball.", null, null, "   - Type magic8 followed by a question/statement.");
+            //magic8 ball
+            sc = new TSOS.ShellCommand(TSOS.Shell.shellMagic, "magic8", "<string> - A magic8 ball.", null, null, "   - Type magic8 followed by a question/statement.");
             this.commandList[this.commandList.length] = sc;
+            //status
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Displays user set status");
             this.commandList[this.commandList.length] = sc;
+            //blue screen of death
             sc = new TSOS.ShellCommand(this.shellBlue, "bsod", "<string> - Displays blue screen of death");
             this.commandList[this.commandList.length] = sc;
+            //load
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "<string> - Validates user code");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
@@ -286,12 +290,13 @@ var TSOS;
         };
         Shell.prototype.shellDate = function (args) {
             var d = Date();
-            _StdOut.putText("The date is " + d.toString());
+            _StdOut.putText("The date is " + d.toString()); //prints date
         };
         Shell.prototype.shellWhereami = function (args) {
-            _StdOut.putText("root/");
+            _StdOut.putText("root/"); //placeholder command for something more substantial
         };
         Shell.prototype.shellMagic = function (args) {
+            //creates an 8 ball array if args is not empty and if the buffer ends with a question mark
             if ((args.length > 0) && (_Console.buffer[_Console.buffer.length - 1] == "?")) {
                 var sides = ["Don't count on it.", "As I see it, yes.",
                     "It is certain", "Reply hazy, try again.", "My reply is no.",
@@ -300,8 +305,9 @@ var TSOS;
                     "Better not tell you now.", "Outlook not so good.", "Signs point to yes.",
                     "Yes - definitely.", "Cannot predict now.", "Very doubtful", "Yes",
                     "You may rely on it.", "Concentrate and ask again."];
-                var selector = sides[Math.floor(Math.random() * sides.length)];
-                _StdOut.putText(selector);
+                var selector = sides[Math.floor(Math.random() * sides.length)]; //performs a random selection
+                _StdOut.putText(selector); //prints selection
+                //debug
                 console.log(_Console.buffer);
             }
             else {
@@ -311,7 +317,7 @@ var TSOS;
             }
         };
         Shell.prototype.shellStatus = function (args) {
-            this.shellState = "Running";
+            //command to be changed, sets status to whatever is specified, otherwise its running.
             var myState = this.shellState;
             if (args.length > 0) {
                 var sent = "";
@@ -326,11 +332,12 @@ var TSOS;
             }
         };
         Shell.prototype.shellBlue = function () {
-            var msg = "Your system has ran into a problem and needs to restart.";
+            var msg = "Your system has ran into a problem and needs to restart."; //bsod
             _Kernel.krnTrapError(msg);
         };
         Shell.prototype.shellLoad = function () {
-            var doc = document.getElementById("taProgramInput").value;
+            //load user input and check that its hex
+            var doc = document.getElementById("taProgramInput").value; //get value of doc
             var a = doc.toString();
             var arr = [a][0];
             var isValid = true;
@@ -340,13 +347,13 @@ var TSOS;
                 while (isValid && !endOf) {
                     for (var i = 0; i < arr.length; i++) {
                         switch (arr[i]) {
-                            case "0":
-                                current = 0;
-                                console.log(current);
+                            case "0": //check the current value
+                                current = 0; //set our holder
+                                console.log(current); //debugging
                                 if (i == (arr.length - 1)) {
                                     endOf = true;
-                                }
-                                break;
+                                } //check if i is the size of length-1
+                                break; //and set our boolean to stop while
                             case "1":
                                 current = 1;
                                 console.log(current);

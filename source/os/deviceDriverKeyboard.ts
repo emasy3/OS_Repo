@@ -53,123 +53,121 @@ module TSOS {
             } else if (((keyCode >= 48) && (keyCode <= 63)) ||   // digits
                         (keyCode >= 32)||   // space
                         (keyCode == 13) || // enter
-                        (keyCode >= 186) && (keyCode <=192) ||
-                        (keyCode >= 219) && (keyCode <=222) ||
-                        (keyCode >= 37) && (keyCode <=40))
+                        (keyCode >= 186) && (keyCode <=192) || //special chars
+                        (keyCode >= 219) && (keyCode <=222) || //sc
+                        (keyCode >= 37) && (keyCode <=40))     //arrows
                         {
-                            if(isShifted){
+                        if(isShifted){
+                            switch (keyCode) {
+                                case 48:
+                                    chr = ")";
+                                    break;
+                                case 49:
+                                    chr = "!";
+                                    break;
+                                case 50:
+                                    chr = "@";
+                                    break;
+                                case 51:
+                                    chr = "#";
+                                    break;
+                                case 52:
+                                    chr = "$";
+                                    break;
+                                case 53:
+                                    chr = "%";
+                                    break;
+                                case 54:
+                                    chr = "^";
+                                    break;
+                                case 55:
+                                    chr = "&";
+                                    break;
+                                case 56:
+                                    chr = "*";
+                                    break;
+                                case 57:
+                                    chr = "(";
+                                    break;
+                                case 186:
+                                    chr = ":";
+                                    break;
+                                case 187:
+                                    chr = "+";
+                                    break;
+                                case 188:
+                                    chr = "<";
+                                    break;
+                                case 189:
+                                    chr = "_";
+                                    break;
+                                case 190:
+                                    chr = ">";
+                                    break;
+                                case 191:
+                                    chr = "?";
+                                    break;
+                                case 192:
+                                    chr = "~";
+                                    break;
+                                case 219:
+                                    chr = "{";
+                                    break;
+                                case 220:
+                                    chr = "|";
+                                    break;
+                                case 221:
+                                    chr = "}";
+                                    break;
+                                case 222:
+                                    chr = "\"";
+                                    break;
+                                }
+                        }else {
+                            if((keyCode >= 186) && (keyCode <=192) ||
+                               (keyCode >= 219) && (keyCode <=222)) {
                                 switch (keyCode) {
-                                    case 48:
-                                        chr = ")";
-                                        break;
-                                    case 49:
-                                        chr = "!";
-                                        break;
-                                    case 50:
-                                        chr = "@";
-                                        break;
-                                    case 51:
-                                        chr = "#";
-                                        break;
-                                    case 52:
-                                        chr = "$";
-                                        break;
-                                    case 53:
-                                        chr = "%";
-                                        break;
-                                    case 54:
-                                        chr = "^";
-                                        break;
-                                    case 55:
-                                        chr = "&";
-                                        break;
-                                    case 56:
-                                        chr = "*";
-                                        break;
-                                    case 57:
-                                        chr = "(";
-                                        break;
                                     case 186:
-                                        chr = ":";
+                                        chr = ";";
                                         break;
                                     case 187:
-                                        chr = "+"
+                                        chr = "=";
                                         break;
                                     case 188:
-                                        chr = "<"
+                                        chr = ",";
                                         break;
                                     case 189:
-                                        chr = "_"
+                                        chr = "-";
                                         break;
                                     case 190:
-                                        chr = ">"
+                                        chr = ".";
                                         break;
                                     case 191:
-                                        chr = "?"
+                                        chr = "/";
                                         break;
                                     case 192:
-                                        chr = "~"
+                                        chr = "`";
                                         break;
                                     case 219:
-                                        chr = "{"
+                                        chr = "[";
                                         break;
                                     case 220:
-                                        chr = "|"
+                                        chr = "\\";
                                         break;
                                     case 221:
-                                        chr = "}"
+                                        chr = "]";
                                         break;
                                     case 222:
-                                        chr = "\""
+                                        chr = "\'";
                                         break;
                                 }
-                            }else {
-                                if((keyCode >= 186) && (keyCode <=192) ||
-                                    (keyCode >= 219) && (keyCode <=222)) {
-                                    switch (keyCode) {
-                                        case 186:
-                                            chr = ";"
-                                            break;
-                                        case 187:
-                                            chr = "="
-                                            break;
-                                        case 188:
-                                            chr = ","
-                                            break;
-                                        case 189:
-                                            chr = "-"
-                                            break;
-                                        case 190:
-                                            chr = "."
-                                            break;
-                                        case 191:
-                                            chr = "/"
-                                            break;
-                                        case 192:
-                                            chr = "`"
-                                            break;
-                                        case 219:
-                                            chr = "["
-                                            break;
-                                        case 220:
-                                            chr = "\\"
-                                            break;
-                                        case 221:
-                                            chr = "]"
-                                            break;
-                                        case 222:
-                                            chr = "\'"
-                                            break;
-                                    }
-                                }else { chr = String.fromCharCode(keyCode);}
-                            }
-                _KernelInputQueue.enqueue(chr);
-            }else{
-                        chr = String.fromCharCode(keyCode);
+                            }else { chr = String.fromCharCode(keyCode);}
+                        }
                         _KernelInputQueue.enqueue(chr);
-
+            }else{
+                chr = String.fromCharCode(keyCode);
+                _KernelInputQueue.enqueue(chr);
             }
-
         }
     }
 }
