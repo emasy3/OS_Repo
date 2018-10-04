@@ -42,5 +42,21 @@ module TSOS {
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }
+        public parse(str): void {
+            var arr = [];
+            var input = str.replace(/\s/g, '');
+            console.log(input);
+            for(let i = 0; i < str.length; i+=2){
+                if(input[i] === undefined){
+                    break;
+                }else if(input[i + 1] === undefined){
+                    input += "0";
+                }
+                var indx = input[i] + input[i + 1];
+                console.log(indx);
+                arr.push(indx);
+            }
+            console.log(arr);
+        }
     }
 }

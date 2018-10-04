@@ -271,6 +271,7 @@ module TSOS {
             _DrawingContext.fontClear(rectX, rectY, letrWidth, letrHeight, ctx);
         }
 
+
         static genCommands(a): any {                                       //helper function that makes an array of command attributes and returns it
             for (var i =0; i < _OsShell.commandList.length; i++){
                 var holder = _OsShell.commandList[i];

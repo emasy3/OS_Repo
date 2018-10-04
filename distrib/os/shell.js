@@ -339,154 +339,17 @@ var TSOS;
             //load user input and check that its hex
             var doc = document.getElementById("taProgramInput").value; //get value of doc
             var a = doc.toString();
-            var arr = [a][0];
-            var isValid = true;
-            var endOf = false;
-            var current;
-            if (a.length > 0) {
-                while (isValid && !endOf) {
-                    for (var i = 0; i < arr.length; i++) {
-                        switch (arr[i]) {
-                            case "0": //check the current value
-                                current = 0; //set our holder
-                                console.log(current); //debugging
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                } //check if i is the size of length-1
-                                break; //and set our boolean to stop while
-                            case "1":
-                                current = 1;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "2":
-                                current = 2;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "3":
-                                current = 3;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "4":
-                                current = 4;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "5":
-                                current = 5;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "6":
-                                current = 6;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "7":
-                                current = 7;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "8":
-                                current = 8;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "9":
-                                current = 9;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "A":
-                                current = 10;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "B":
-                                current = 11;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "C":
-                                current = 12;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "D":
-                                current = 13;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "E":
-                                current = 14;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case "F":
-                                current = 15;
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            case " ":
-                                current = " ";
-                                console.log(current);
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                            default:
-                                isValid = false;
-                                current = arr[i].toString();
-                                if (i == (arr.length - 1)) {
-                                    endOf = true;
-                                }
-                                break;
-                        }
-                    }
-                }
-                //if we run into a character we dont have a case for, i.e. the default
-                if (!isValid) {
-                    _StdOut.putText("Invalid Program Data at: ");
-                    _StdOut.advanceLine();
-                    _StdOut.putText("   Instance: " + current);
-                    _StdOut.advanceLine();
-                }
-                else {
-                    console.log(arr);
-                    _StdOut.putText("Program input accepted");
-                }
+            var regX = /^[\d\sa-fA-F]+$/;
+            //if we run into a character we dont have a case for, i.e. the default
+            if (!regX.test(a)) {
+                _StdOut.putText("Invalid Program Data.");
+                _StdOut.advanceLine();
+            }
+            else {
+                console.log(a);
+                _StdOut.putText("Program input accepted");
+                _StdOut.advanceLine();
+                _CPU.parse(a);
             }
         };
         return Shell;
