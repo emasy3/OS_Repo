@@ -1,0 +1,421 @@
+
+9.80 Line is longer than 80 characters.
+    Note: While fun and learning are the primary goals of all enrichment center activities,
+
+10.80 Line is longer than 80 characters.
+          serious injuries may occur when trying to write your own Operating System.
+
+12.0 Unexpected TODO comment.
+    // TODO: Write a base class / prototype for system services and let Shell inherit from it.
+
+12.80 Line is longer than 80 characters.
+    // TODO: Write a base class / prototype for system services and let Shell inherit from it.
+
+16.17 Redefinition of 'Shell' from line 15.
+        function Shell() {
+
+18.12 Unexpected 'this'.
+            this.promptStr = ">";
+
+19.12 Unexpected 'this'.
+            this.commandList = [];
+
+20.12 Unexpected 'this'.
+            this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
+
+20.80 Line is longer than 80 characters.
+            this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
+
+21.12 Unexpected 'this'.
+            this.apologies = "[sorry]";
+
+22.12 Unexpected 'this'.
+            this.shellState = "Running";
+
+28.75 Unexpected 'this'.
+            document.getElementById("statusText").innerHTML = "Status: " + this.shellState;
+
+28.80 Line is longer than 80 characters.
+            document.getElementById("statusText").innerHTML = "Status: " + this.shellState;
+
+32.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.", "version", "v", "   - Alternatives: v and version");
+
+32.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.", "version", "v", "   - Alternatives: v and version");
+
+33.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+33.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+35.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
+
+35.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
+
+36.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+36.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+38.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
+
+38.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
+
+39.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+39.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+41.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position.");
+
+41.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position.");
+
+42.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+42.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+44.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellMan, "man", "<topic> - Displays the MANual page for <topic>.");
+
+44.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellMan, "man", "<topic> - Displays the MANual page for <topic>.");
+
+45.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+45.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+47.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellTrace, "trace", "<on | off> - Turns the OS trace on or off.");
+
+47.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellTrace, "trace", "<on | off> - Turns the OS trace on or off.");
+
+48.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+48.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+50.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellRot13, "rot13", "<string> - Does rot13 obfuscation on <string>.");
+
+50.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellRot13, "rot13", "<string> - Does rot13 obfuscation on <string>.");
+
+51.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+51.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+53.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
+
+53.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
+
+54.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+54.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+56.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the date and time.");
+
+56.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the date and time.");
+
+57.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+57.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+59.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Displays where user is in file hierarchy.");
+
+59.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Displays where user is in file hierarchy.");
+
+60.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+60.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+62.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(TSOS.Shell.shellMagic, "magic8", "<string> - A magic8 ball.", null, null, "   - Type magic8 followed by a question/statement.");
+
+63.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+63.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+65.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Displays user set status");
+
+65.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Displays user set status");
+
+66.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+66.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+68.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellBlue, "bsod", "<string> - Displays blue screen of death");
+
+68.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellBlue, "bsod", "<string> - Displays blue screen of death");
+
+69.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+69.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+71.39 Unexpected 'this'.
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "<string> - Validates user code");
+
+71.80 Line is longer than 80 characters.
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "<string> - Validates user code");
+
+72.12 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+72.29 Unexpected 'this'.
+            this.commandList[this.commandList.length] = sc;
+
+77.12 Unexpected 'this'.
+            this.putPrompt();
+
+80.28 Unexpected 'this'.
+            _StdOut.putText(this.promptStr);
+
+87.30 Unexpected 'this'.
+            var userCommand = this.parseInput(buffer);
+
+94.80 Line is longer than 80 characters.
+            // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
+
+95.12 Unexpected TODO comment.
+            // command list in attempt to find a match.  TODO: Is there a better way? Probably. Someone work it out and tell me in class.
+
+95.80 Line is longer than 80 characters.
+            // command list in attempt to find a match.  TODO: Is there a better way? Probably. Someone work it out and tell me in class.
+
+99.12 Weird loop.
+            while (!found && index < this.commandList.length) {
+
+99.37 Unexpected 'this'.
+            while (!found && index < this.commandList.length) {
+
+101.25 Unexpected 'this'.
+                    case this.commandList[index].command: {
+
+101.58 Naked block.
+                    case this.commandList[index].command: {
+
+103.29 Unexpected 'this'.
+                        fn = this.commandList[index].func;
+
+106.25 Unexpected 'this'.
+                    case this.commandList[index].command1: {
+
+106.59Naked block.
+                    case this.commandList[index].command1: {
+
+108.29 Unexpected 'this'.
+                        fn = this.commandList[index].func;
+
+111.25 Unexpected 'this'.
+                    case this.commandList[index].command2: {
+
+111.59Naked block.
+                    case this.commandList[index].command2: {
+
+113.29 Unexpected 'this'.
+                        fn = this.commandList[index].func;
+
+116.29 Naked block.
+                    default: {
+
+123.16 Unexpected 'this'.
+                this.execute(fn, args);
+
+126.80 Line is longer than 80 characters.
+                // It's not found, so check for curses and apologies before declaring the command invalid.
+
+127.20 Unexpected 'this'.
+                if (this.curses.indexOf("[" + TSOS.Utils.rot13(cmd) + "]") >= 0) { // Check for curses.
+
+127.80 Line is longer than 80 characters.
+                if (this.curses.indexOf("[" + TSOS.Utils.rot13(cmd) + "]") >= 0) { // Check for curses.
+
+128.20 Unexpected 'this'.
+                    this.execute(this.shellCurse);
+
+128.33 Unexpected 'this'.
+                    this.execute(this.shellCurse);
+
+130.25 Unexpected 'this'.
+                else if (this.apologies.indexOf("[" + cmd + "]") >= 0) { // Check for apologies.
+
+130.80 Line is longer than 80 characters.
+                else if (this.apologies.indexOf("[" + cmd + "]") >= 0) { // Check for apologies.
+
+131.20 Unexpected 'this'.
+                    this.execute(this.shellApology);
+
+131.33 Unexpected 'this'.
+                    this.execute(this.shellApology);
+
+134.20 Unexpected 'this'.
+                    this.execute(this.shellInvalidCommand);
+
+134.33 Unexpected 'this'.
+                    this.execute(this.shellInvalidCommand);
+
+138.80 Line is longer than 80 characters.
+        // Note: args is an option parameter, ergo the ? which allows TypeScript to understand that.
+
+142.80 Line is longer than 80 characters.
+            // ... call the command function passing in the args with some über-cool functional programming ...
+
+149.12 Unexpected 'this'.
+            this.putPrompt();
+
+157.80 Line is longer than 80 characters.
+            // 3. Separate on spaces so we can determine the command and command-line args, if any.
+
+160.80 Line is longer than 80 characters.
+            var cmd = tempList.shift(); // Yes, you can do that to an array in JavaScript.  See the Queue class.
+
+166.12 Unexpected 'for'.
+            for (var i in tempList) {
+
+166.17 Unexpected 'var'.
+            for (var i in tempList) {
+
+175.80 Line is longer than 80 characters.
+        // Shell Command Functions.  Kinda not part of Shell() class exactly, but
+
+176.80 Line is longer than 80 characters.
+        // called from here, so kept here to avoid violating the law of least astonishment.
+
+183.80 Line is longer than 80 characters.
+                _StdOut.putText("must be the pride of [subject hometown here].");
+
+197.80 Line is longer than 80 characters.
+                _StdOut.putText("I think we can put our differences behind us.");
+
+214.80 Line is longer than 80 characters.
+                    _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
+
+216.80 Line is longer than 80 characters.
+                    _StdOut.putText("  " + _OsShell.commandList[i].description1);
+
+219.80 Line is longer than 80 characters.
+                    _StdOut.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
+
+227.12 Unexpected TODO comment.
+            // TODO: Stop the final prompt from being displayed.  If possible.  Not a high priority.  (Damn OCD!)
+
+227.80 Line is longer than 80 characters.
+            // TODO: Stop the final prompt from being displayed.  If possible.  Not a high priority.  (Damn OCD!)
+
+237.80 Line is longer than 80 characters.
+                        _StdOut.putText("Help displays a list of (hopefully) valid commands.");
+
+239.20 Unexpected TODO comment.
+                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+
+239.80 Line is longer than 80 characters.
+                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+
+266.80 Line is longer than 80 characters.
+                        _StdOut.putText("Invalid arguement.  Usage: trace <on | off>.");
+
+276.43Use double quotes, not single quotes.
+                _StdOut.putText(args.join(' ') + " = '" + TSOS.Utils.rot13(args.join(' ')) + "'");
+
+276.80 Line is longer than 80 characters.
+                _StdOut.putText(args.join(' ') + " = '" + TSOS.Utils.rot13(args.join(' ')) + "'");
+
+276.86Use double quotes, not single quotes.
+                _StdOut.putText(args.join(' ') + " = '" + TSOS.Utils.rot13(args.join(' ')) + "'");
+
+279.80 Line is longer than 80 characters.
+                _StdOut.putText("Usage: rot13 <string>  Please supply a string.");
+
+287.80 Line is longer than 80 characters.
+                _StdOut.putText("Usage: prompt <string>  Please supply a string.");
+
+295.80 Line is longer than 80 characters.
+            _StdOut.putText("root/"); //placeholder command for something more substantial
+
+298.80 Line is longer than 80 characters.
+            //creates an 8 ball array if args is not empty and if the buffer ends with a question mark
+
+299.80 Line is longer than 80 characters.
+            if ((args.length > 0) && (_Console.buffer[_Console.buffer.length - 1] == "?")) {
+
+301.80 Line is longer than 80 characters.
+                    "It is certain", "Reply hazy, try again.", "My reply is no.",
+
+304.80 Line is longer than 80 characters.
+                    "Better not tell you now.", "Outlook not so good.", "Signs point to yes.",
+
+305.80 Line is longer than 80 characters.
+                    "Yes - definitely.", "Cannot predict now.", "Very doubtful", "Yes",
+
+307.80 Line is longer than 80 characters.
+                var selector = sides[Math.floor(Math.random() * sides.length)]; //performs a random selection
+
+315.77 Unexpected '\' before '''.
+                _StdOut.putText("Please end the command with a question. ex: \'me?\'");
+
+315.80 Line is longer than 80 characters.
+                _StdOut.putText("Please end the command with a question. ex: \'me?\'");
+
+315.82 Unexpected '\' before '''.
+                _StdOut.putText("Please end the command with a question. ex: \'me?\'");
+
+319.80 Line is longer than 80 characters.
+            //command to be changed, sets status to whatever is specified, otherwise its running.
+
+326.80 Line is longer than 80 characters.
+                document.getElementById("statusText").innerHTML = "Status: " + sent;
+
+329.80 Line is longer than 80 characters.
+                _StdOut.putText("Usage: status <string>  Please specify a string.");
+
+330.80 Line is longer than 80 characters.
+                document.getElementById("statusText").innerHTML = "Status: " + myState;
+
+334.80 Line is longer than 80 characters.
+            var msg = "Your system has ran into a problem and needs to restart."; //bsod
+
+339.80 Line is longer than 80 characters.
+            var doc = document.getElementById("taProgramInput").value; //get value of doc
+
+478.80 Line is longer than 80 characters.
+                //if we run into a character we dont have a case for, i.e. the default
+                

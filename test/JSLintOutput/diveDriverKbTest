@@ -1,0 +1,52 @@
+2.17 Unexpected 'this'.
+    var __extends = (this && this.__extends) || (function () {
+
+2.25 Unexpected 'this'.
+    var __extends = (this && this.__extends) || (function () {
+
+2.30 Bad property name '__extends'.
+    var __extends = (this && this.__extends) || (function () {
+
+5.15 Bad property name '__proto__'.
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+
+5.80 Line is longer than 80 characters.
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+
+6.30 Unexpected 'for'.
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
+6.35 Unexpected 'var'.
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
+6.80 Line is longer than 80 characters.
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
+12.80 Line is longer than 80 characters.
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+
+29.23 Unexpected trailing space.
+            var _this =
+
+39.80 Line is longer than 80 characters.
+            // Initialization routine for this, the kernel-mode Keyboard Device Driver.
+
+43.80 Line is longer than 80 characters.
+        DeviceDriverKeyboard.prototype.krnKbdDispatchKeyPress = function (params) {
+
+44.12 Unexpected TODO comment.
+            // Parse the params.    TODO: Check that the params are valid and osTrapError if not.
+
+44.80 Line is longer than 80 characters.
+            // Parse the params.    TODO: Check that the params are valid and osTrapError if not.
+
+49.80 Line is longer than 80 characters.
+            // Check to see if we even want to deal with the key that was pressed.
+
+60.16 Unexpected TODO comment.
+                // TODO: Check for caps-lock and handle as shifted if so.
+133.35 Unexpected '\' before '''.
+                            chr = "\'";
+
+172.39 Unexpected '\' before '''.
+                                chr = "\'";
