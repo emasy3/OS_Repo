@@ -25,6 +25,7 @@ module TSOS {
         public shellState = "Running";
 
         constructor() {
+            _ResidentQueue = new Queue();
         }
 
         public init() {
@@ -410,16 +411,28 @@ module TSOS {
             var doc = (<HTMLInputElement> document.getElementById("taProgramInput")).value; //get value of doc
             var a = doc.toString();
             var regX = /^[\d\sa-fA-F]+$/;
-
+            var len = _ResidentQueue.getSize();
             //if we run into a character we dont have a case for, i.e. the default
             if(!regX.test(a)){
                 _StdOut.putText("Invalid Program Data.");
                 _StdOut.advanceLine();
             }else{
-                console.log(a);
-                _StdOut.putText("Program input accepted");
+                _Memory.load(a, _Memory.partA);
+                _ResidentQueue.enqueue(new Pcb(0, len, 0));
+                _StdOut.putText("Program input accepted. " + "PID: " + _ResidentQueue.q[len].prId.toString());
                 _StdOut.advanceLine();
-                _CPU.parse(a);
+                //console.log(_ResidentQueue.dequeue());;
+                console.log(_ResidentQueue.q[len]);
+                _ResidentQueue.toString();
+                console.log(_Memory.print(_Memory.partA));
+            }
+        }
+        static getPcb(num){
+            for(var i = 0; i < _ResidentQueue.q.length; i++){
+                var cb = _ResidentQueue.q[i];
+                if(cb.valueOf().prId == num){
+                    return cb;
+                }
             }
         }
 

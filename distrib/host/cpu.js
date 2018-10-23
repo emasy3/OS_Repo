@@ -46,17 +46,17 @@ var TSOS;
         Cpu.prototype.parse = function (str) {
             var arr = [];
             var input = str.replace(/\s/g, '');
-            console.log(input);
             for (var i = 0; i < str.length; i += 2) {
+                //check if current input value or the next value is undefined
                 if (input[i] === undefined) {
                     break;
                 }
                 else if (input[i + 1] === undefined) {
                     input += "0";
                 }
-                var indx = input[i] + input[i + 1];
-                console.log(indx);
-                arr.push(indx);
+                var pairVal = input[i] + input[i + 1];
+                console.log(pairVal);
+                arr.push(pairVal);
             }
             console.log(arr);
         };

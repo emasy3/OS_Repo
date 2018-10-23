@@ -131,7 +131,7 @@ var TSOS;
                             chr = "}";
                             break;
                         case 222:
-                            chr = "\'";
+                            chr = "\"";
                             break;
                     }
                 }

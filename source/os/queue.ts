@@ -10,7 +10,7 @@
 
 module TSOS {
     export class Queue {
-        constructor(public q = new Array()) {
+        constructor(public q = []) {
         }
 
         public getSize() {
@@ -34,11 +34,9 @@ module TSOS {
         }
 
         public toString() {
-            var retVal = "";
-            for (var i in this.q) {
-                retVal += "[" + this.q[i] + "] ";
+            for(let i = 0; i < this.getSize(); i++){
+                console.log(this.q[i]);
             }
-            return retVal;
         }
     }
 }

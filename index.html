@@ -26,6 +26,7 @@
    <script type="text/javascript" src="distrib/host/control.js"></script>
    <script type="text/javascript" src="distrib/host/devices.js"></script>
    <script type="text/javascript" src="distrib/host/cpu.js"></script>
+   <script type="text/javascript" src="distrib/host/mem.js"></script>
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
    <script type="text/javascript" src="distrib/os/interrupt.js"></script>
@@ -38,6 +39,7 @@
    <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
    <script type="text/javascript" src="distrib/os/userCommand.js"></script>
    <script type="text/javascript" src="distrib/os/kernel.js"></script>
+   <script type="text/javascript" src="distrib/os/pcb.js"></script>
 
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
@@ -108,7 +110,7 @@
        </div>
    </div>
 
-   <div id="divUserProgramInput">
+   <div class="col-sm-6" id="divUserProgramInput">
       <label>
          User Program Input
          <br>
@@ -116,9 +118,76 @@
                    id  ="taProgramInput"
                    rows="8"
                    cols="48"
-         >AA FF 156488888888888</textarea>
+         >  AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  AF  AD
+ AF  AD  AF  AD  AF  AD  DD  D</textarea>
       </label>
    </div>
+    <br>
+    <label>Memory Display</label>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a id="memory-0-tab" href=".memory0" role="tab" data-toggle="tab">Segment 0</a>
+        </li>
+        <li>
+            <a id="memory-1-tab" href=".memory1" role="tab" data-toggle="tab">Segment 1</a>
+        </li>
+        <li>
+            <a id="memory-2-tab" href=".memory2" role="tab" data-toggle="tab">Segment 2</a>
+        </li>
+    </ul>
+    <div class="tab-content col-sm-6" style="font-family: monospace;">
+        <div class="tab-pane active memory0" style="font-weight: bold;">
+            <div id="memoryScrolling0" class="panel panel-default memoryDisplay">
+                <table class="table table-striped">
+                    <tbody id="memory0Display"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane memory1" style="font-weight: bold;">
+            <div id="memoryScrolling1" class="panel panel-default memoryDisplay">
+                <table class="table table-striped">
+                    <tbody id="memory1Display"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane memory2" style="font-weight: bold;">
+            <div id="memoryScrolling2" class="panel panel-default memoryDisplay">
+                <table class="table table-striped">
+                    <tbody id="memory2Display"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <p class="footerText" style="clear:both;">
