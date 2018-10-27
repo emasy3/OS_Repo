@@ -37,10 +37,91 @@ module TSOS {
             this.isExecuting = false;
         }
 
-        public cycle(): void {
+        public cycle(pcb?, part?): void {
+            this.isExecuting = true;
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+            for(var i = pcb.prgCounter; i < part.length; i++){
+               var fetch = part[i].varX;
+               var fetch1 = part[i].varY;
+               var fetch2 = fetch + fetch1;
+               switch (fetch2.toString()) {
+                   //LDA with cons
+                   case "A9":
+                       //get value
+                       var valX =   part[i+1].varX;
+                       var valY = part[i+1].varY;
+                       //execute load
+                       var accU = valX + valY;
+                       pcb.inReg = "A9";
+                       pcb.acc = accU;
+                       pcb.prgCounter = i + 1;
+                       i+=1;
+                       //ne
+                       console.log(pcb.inReg);
+                       break;
+                   //LDA from memory
+                   case "AD":
+                       console.log("LDA mem command:");
+                       var val = part[i+1].varX + part[i+1].varY;
+                       val = val.toString();
+                       var val2 = Number(parseInt(val, 16));
+                       pcb.inReg = "AD";
+                       i+=2;
+                       var val3 = part[val2-1].varX + part[val2-1].varY;
+                       pcb.acc = val3;
+                       console.log("Type of val: " + typeof val2);
+                       console.log("Hex value: " + val2);
+                       console.log("Pcb accumulator value: " + pcb.acc);
+                       //console.log(pcb.inReg);
+                       console.log("Memory value at "+val2+":"+val3);
+                       break;
+                   //STA
+                   case "8D":
+                       break;
+                   //ADC
+                   case "6D":
+                       break;
+                   //LDX
+                   case "A2":
+                       break;
+                   case "AE":
+                       break;
+                   //LDY
+                   case "A0":
+                       break;
+                   case "AC":
+                       break;
+                   //NOP
+                   case "EA":
+                       break;
+                   //BRK
+                   case "00":
+                       break;
+                   //CPX
+                   case "EC":
+                       break;
+                   //BNE
+                   case "D0":
+                       break;
+                   //INC
+                   case "EE":
+                       break;
+                   //SYS
+                   case "FF":
+                       break;
+                   default:
+                       /*pcb.inReg = "00";
+                       pcb.acc = "00";
+                       console.log("Error");
+                       console.log(fetch2 + " is not a valid op code");
+                       */break;
+               }
+            }
+            pcb.prState = "done";
+            this.isExecuting = false;
+
         }
         public parse(str): void {
             var arr = [];

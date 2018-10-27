@@ -16,7 +16,6 @@ module TSOS {
         public getSize() {
             return this.q.length;
         }
-
         public isEmpty(){
             return (this.q.length == 0);
         }

@@ -46,6 +46,7 @@ var _Trace: boolean = true;  // Default the OS trace to be on.
 var _Kernel: TSOS.Kernel;
 
 var _ResidentQueue;
+var _ReadyQueue;
 
 var _KernelInterruptQueue;          // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue: any = null;  // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'

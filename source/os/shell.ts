@@ -26,6 +26,7 @@ module TSOS {
 
         constructor() {
             _ResidentQueue = new Queue();
+            _ReadyQueue = new Queue();
         }
 
         public init() {
@@ -100,6 +101,7 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
             //magic8 ball
+            // language=HTML
             sc = new ShellCommand(TSOS.Shell.shellMagic,
                                      "magic8",
                                     "<string> - A magic8 ball.",
@@ -124,6 +126,12 @@ module TSOS {
             sc = new ShellCommand(this.shellLoad,
                                     "load",
                                    "<string> - Validates user code");
+            this.commandList[this.commandList.length] = sc;
+
+            //run
+            sc = new ShellCommand(this.shellRun,
+                "run",
+                "<string> - runs user code");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -418,22 +426,37 @@ module TSOS {
                 _StdOut.advanceLine();
             }else{
                 _Memory.load(a, _Memory.partA);
-                _ResidentQueue.enqueue(new Pcb(0, len, 0));
-                _StdOut.putText("Program input accepted. " + "PID: " + _ResidentQueue.q[len].prId.toString());
+                var inReg = _Memory.partA[0].varX + _Memory.partA[0].varY;
+                _ResidentQueue.enqueue(new Pcb('new', len, 0, 0, 0, 0, inReg.toString(),
+                                            0, "", _Memory.partA));
+
+                _StdOut.putText("Program input accepted. " + "PID: " + _ResidentQueue.q[len].pId.toString());
                 _StdOut.advanceLine();
                 //console.log(_ResidentQueue.dequeue());;
-                console.log(_ResidentQueue.q[len]);
-                _ResidentQueue.toString();
-                console.log(_Memory.print(_Memory.partA));
+                //console.log(_ResidentQueue.q[len]);
+                //_ResidentQueue.toString();
             }
         }
-        static getPcb(num){
-            for(var i = 0; i < _ResidentQueue.q.length; i++){
-                var cb = _ResidentQueue.q[i];
-                if(cb.valueOf().prId == num){
-                    return cb;
+
+        public shellRun(args){
+            if(args.length > 0){
+                console.log(_ResidentQueue.q[0].prState);
+                console.log(_ResidentQueue.q[0].inReg);
+                for(var i = 0; i <  _ResidentQueue.q.length; i++){
+                    if(_ResidentQueue.q[i].pId == args){
+                        console.log("Resident Queue: ");
+                        console.log( _ResidentQueue.q);
+                        _ResidentQueue.q[i].prState = 'running';
+                        _ReadyQueue.enqueue(_ResidentQueue.q[i]);
+                        _CPU.cycle(_ResidentQueue.q[i], _ResidentQueue.q[i].part);
+                    }
                 }
+                console.log("Ready Queue: ");
+                console.log(_ReadyQueue.q);
+            }else {
+                _StdOut.putText("error");
             }
+
         }
 
     }
