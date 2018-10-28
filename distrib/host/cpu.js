@@ -59,8 +59,6 @@ var TSOS;
                         pcb.acc = accU;
                         pcb.prgCounter = i + 1;
                         i += 1;
-                        //ne
-                        console.log(pcb.inReg);
                         break;
                     //LDA from memory
                     case "AD":
@@ -69,6 +67,7 @@ var TSOS;
                         val = val.toString();
                         var val2 = Number(parseInt(val, 16));
                         pcb.inReg = "AD";
+                        pcb.prgCounter = i + 2;
                         i += 2;
                         var val3 = part[val2 - 1].varX + part[val2 - 1].varY;
                         pcb.acc = val3;
@@ -80,28 +79,139 @@ var TSOS;
                         break;
                     //STA
                     case "8D":
+                        console.log("STA command:");
+                        var val = part[i + 1].varX + part[i + 1].varY;
+                        val = val.toString();
+                        var val2 = Number(parseInt(val, 16));
+                        var test = false;
+                        if (val2 == 0) {
+                            pcb.inReg = "8D";
+                            pcb.prgCounter = i + 2;
+                            i += 2;
+                            console.log("Partition at parameter val before set");
+                            console.log(part[val2]);
+                            part[val2].varX = pcb.acc.charAt(0);
+                            part[val2].varY = pcb.acc.charAt(1);
+                        }
+                        else if (val2 < 257 && val2 > 0) {
+                            pcb.inReg = "8D";
+                            pcb.prgCounter = i + 2;
+                            i += 2;
+                            console.log("Partition at parameter val before set");
+                            console.log(part[val2 - 1]);
+                            part[val2 - 1].varX = pcb.acc.charAt(0);
+                            part[val2 - 1].varY = pcb.acc.charAt(1);
+                            test = true;
+                        }
+                        console.log("Accumulator : " + pcb.acc);
+                        console.log("Partition at parameter val after");
+                        if (test == true) {
+                            console.log(part[val2 - 1]);
+                        }
+                        else {
+                            console.log(part[val2]);
+                        }
                         break;
-                    //ADC
+                    //ADC adds mem value to accumulator
                     case "6D":
+                        console.log("ADC command:");
+                        var val = part[i + 1].varX + part[i + 1].varY;
+                        val = val.toString();
+                        var val2 = Number(parseInt(val, 16));
+                        pcb.inReg = "6D";
+                        pcb.prgCounter = i + 2;
+                        i += 2;
+                        var elemHx = Number(parseInt(part[val2 - 1].varX + part[val2 - 1].varY, 16));
+                        var pcbHx = Number(parseInt(pcb.acc, 16));
+                        var result = Number(pcbHx + elemHx);
+                        pcb.acc = result;
+                        console.log(val2);
+                        console.log(elemHx);
+                        console.log(pcbHx);
+                        console.log(pcb.acc);
                         break;
-                    //LDX
+                    //LDX loads x reg with cons
                     case "A2":
+                        //execute load
+                        console.log("LDX command");
+                        pcb.inReg = "A2";
+                        pcb.regX = part[i + 1].varX + part[i + 1].varY;
+                        pcb.prgCounter = i + 1;
+                        i += 1;
+                        console.log("X register: " + pcb.regX);
                         break;
+                    //loads x reg from memory
                     case "AE":
+                        //execute load
+                        console.log("LDX from memory command");
+                        pcb.inReg = "AE";
+                        var partIndx = Number(parseInt(part[i + 1].varX + part[i + 1].varY, 16));
+                        if (partIndx == 0) {
+                            pcb.regX = part[partIndx].varX + part[partIndx].varY;
+                        }
+                        else {
+                            pcb.regX = part[partIndx - 1].varX + part[partIndx - 1].varY;
+                        }
+                        pcb.prgCounter = i + 2;
+                        i += 2;
+                        console.log("X register: " + pcb.regX);
                         break;
                     //LDY
                     case "A0":
+                        //load y register with constant
+                        console.log("LDY command");
+                        pcb.inReg = "A0";
+                        pcb.regY = part[i + 1].varX + part[i + 1].varY;
+                        pcb.prgCounter = i + 1;
+                        i += 1;
+                        console.log("Y register: " + pcb.regY);
                         break;
+                    //load y register from memory
                     case "AC":
+                        //execute load
+                        console.log("LDY from memory command");
+                        pcb.inReg = "AC";
+                        var partIndx = Number(parseInt(part[i + 1].varX + part[i + 1].varY, 16));
+                        if (partIndx == 0) {
+                            pcb.regY = part[partIndx].varX + part[partIndx].varY;
+                        }
+                        else {
+                            pcb.regY = part[partIndx - 1].varX + part[partIndx - 1].varY;
+                        }
+                        pcb.prgCounter = i + 2;
+                        i += 2;
+                        console.log("Y register: " + pcb.regY);
                         break;
-                    //NOP
+                    //NO operation
                     case "EA":
+                        console.log("no op");
                         break;
                     //BRK
                     case "00":
-                        break;
-                    //CPX
+                        console.log(part[i]);
+                        return;
+                    //Compare a byte from memory to Xreg
                     case "EC":
+                        //execute load
+                        console.log("CPX from memory command");
+                        pcb.inReg = "EC";
+                        var partIndx = Number(parseInt(part[i + 1].varX + part[i + 1].varY, 16));
+                        if (partIndx >= 0) {
+                            var HxVal = Number(parseInt(part[partIndx].varX + part[partIndx].varY, 16));
+                            var HxRegX = Number(parseInt(pcb.regX, 16));
+                            if (HxVal === HxRegX) {
+                                this.Zflag = Number(parseInt("00", 16));
+                            }
+                            else {
+                                this.Zflag = Number(parseInt("01", 16));
+                            }
+                        }
+                        else {
+                            console.log("Invalid hex value");
+                        }
+                        pcb.prgCounter = i + 2;
+                        i += 2;
+                        console.log("Y register: " + pcb.regY);
                         break;
                     //BNE
                     case "D0":
