@@ -16,28 +16,22 @@
 var TSOS;
 (function (TSOS) {
     var Cpu = /** @class */ (function () {
-        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting) {
+        function Cpu(PC, Ireg, Acc, Xreg, Yreg, Zflag, isExecuting) {
             if (PC === void 0) { PC = 0; }
-            if (Acc === void 0) { Acc = 0; }
-            if (Xreg === void 0) { Xreg = 0; }
+            if (Ireg === void 0) { Ireg = ""; }
+            if (Acc === void 0) { Acc = ""; }
+            if (Xreg === void 0) { Xreg = ""; }
             if (Yreg === void 0) { Yreg = 0; }
-            if (Zflag === void 0) { Zflag = 0; }
+            if (Zflag === void 0) { Zflag = ""; }
             if (isExecuting === void 0) { isExecuting = false; }
             this.PC = PC;
+            this.Ireg = Ireg;
             this.Acc = Acc;
             this.Xreg = Xreg;
             this.Yreg = Yreg;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
         }
-        Cpu.prototype.init = function () {
-            this.PC = 0;
-            this.Acc = 0;
-            this.Xreg = 0;
-            this.Yreg = 0;
-            this.Zflag = 0;
-            this.isExecuting = false;
-        };
         Cpu.prototype.cycle = function (pcb, part) {
             this.isExecuting = true;
             _Kernel.krnTrace('CPU cycle');
@@ -200,10 +194,10 @@ var TSOS;
                             var HxVal = Number(parseInt(part[partIndx].varX + part[partIndx].varY, 16));
                             var HxRegX = Number(parseInt(pcb.regX, 16));
                             if (HxVal === HxRegX) {
-                                this.Zflag = Number(parseInt("00", 16));
+                                this.Zflag = "00";
                             }
                             else {
-                                this.Zflag = Number(parseInt("01", 16));
+                                this.Zflag = "01";
                             }
                         }
                         else {
@@ -215,12 +209,17 @@ var TSOS;
                         break;
                     //BNE
                     case "D0":
+                        //branch n bytes if Z flag = 0
                         break;
                     //INC
                     case "EE":
+                        //Increment the value of a byte
                         break;
                     //SYS
                     case "FF":
+                        //System Call
+                        //01 Xreg =print the value of integer stored in Y reg
+                        //02 Xreg = print the value of the 00-terminated string stored at the address in the Y register
                         break;
                     default:
                         /*pcb.inReg = "00";

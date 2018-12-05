@@ -1,29 +1,41 @@
 
-
+enum State {
+    nue = "new",
+    rdy = "ready",
+    runnin = "running",
+    done = "done",
+}
 
 
 module TSOS {
 
     export class Pcb{
-    constructor(public prState: string = State.nue,
-        public pId: number = 0,
-        public prgCounter: number = 0,
-        public regX: number = 0,
-        public regY: number = 0,
-        public regZ: number = 0,
-        public inReg: string = "",
-        public priority: number = 0,
-        public acc: string = "",
-        public part: PairVal[] = [],){}
+        public prState: string;
+        public pId: number;
+        public prgCounter: number;
+        public regX: number;
+        public regY: number;
+        public regZ: number;
+        public inReg: string;
+        public priority: number;
+        public acc: number;
+        public part;
+
+        constructor(processId){
+            this.pId = processId;
+            this.prState = "new";
+            this.regX = 0;
+            this.regY = 0;
+            this.regZ = 0;
+            this.part = 0;
+            this.acc = 0;
+            this.inReg = "00";
+            this.prgCounter = 0;
+            this.priority = 1;
+        }
         public toString() {
             return this.pId;
         }
 
-    }
-    enum State {
-        nue = "new",
-        rdy = "ready",
-        runnin = "running",
-        done = "done",
     }
 }

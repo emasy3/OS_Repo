@@ -2,23 +2,14 @@
 <html>
 <head>
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-   <meta name="author"             content="Alan G. Labouseur" />
-   <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
+   <meta name="author"             content="Elijah Johnson" />
+
+   <link rel="stylesheet" href="css/tsos.css" type="text/css" media="screen" />
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
    <title>
       TSOS - a browser-based virtual Operating System in TypeScript
    </title>
-    <!-- jquery for bootstrap -->
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
    <script type="text/javascript" src="distrib/globals.js"></script>
 
@@ -26,6 +17,7 @@
    <script type="text/javascript" src="distrib/host/control.js"></script>
    <script type="text/javascript" src="distrib/host/devices.js"></script>
    <script type="text/javascript" src="distrib/host/cpu.js"></script>
+   <script type="text/javascript" src="distrib/host/disk.js"></script>
    <script type="text/javascript" src="distrib/host/mem.js"></script>
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
@@ -39,163 +31,197 @@
    <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
    <script type="text/javascript" src="distrib/os/userCommand.js"></script>
    <script type="text/javascript" src="distrib/os/kernel.js"></script>
+   <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
    <script type="text/javascript" src="distrib/os/pcb.js"></script>
+   <script type="text/javascript" src="distrib/os/processManager.js"></script>
 
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
+   
+   <script src="https://unpkg.com/vue"></script>
    <!-- Uncomment the line below to enable GLaDOS testing. -->
    <script type="text/javascript" src="test/verTest-ip0.js"></script>
    
 </head>
 
-<body onload="onDocumentLoad()">
+<body onload="onDocumentLoad()" class="hero is-light is-bold is-fullheight" style="overflow-y: auto;">
+    <section>
+    <div id="main" class="row span12" style="width:100%;">
+       
+        <div class="hero-head">
+          <nav class="navbar">
+              <div class="navbar-brand">
+                  <a class="navbar-item" href="/">
+                      <img src="http://bulma.io/images/bulma-logo.png" alt="Logo">
+                  </a>
+                  <!--
+                  Using the v-on: directive to listen for the click event and toggle the data property showNav. Also, using the v-bind: directive to reactively update the class attribute 'is-active' based on the showNav property.
+                  -->
+                  <div class="navbar-burger" @click="showNav = !showNav" :class="{ 'is-active': showNav }">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </div>
+              </div>
+                <!--
+              Using the v-bind: directive to reactively update the class attribute 'is-active' based on the showNav property.
+              -->
+              <div class="navbar-menu" id="" :class="{ 'is-active': showNav }">
+                  <div class="navbar-end">
+                      <div class="navbar-item" style="text-align: center">
+                          <input type="button"
+                                id = "btnStartOS"
+                                style="color:#4a4a4a"
+                                name="brnStartOS"
+                                class="normal_button"
+                                value="Start"
+                                tabindex="0"
+                                onclick="TSOS.Control.hostBtnStartOS_click(this);">
+                      </div>
+                      <div class="navbar-item" style="text-align: center">
+                          <input type="button"
+                                id = "btnHaltOS"
+                                name="brnHaltOS"
+                                style="color:#4a4a4a"
+                                class="normal_button"
+                                disabled="disabled"
+                                value="Halt"
+                                tabindex="1"
+                                onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+                      </div>
+                      <div class="navbar-item" style="text-align: center">
+                          <input type="button"
+                                id = "btnReset"
+                                name="brnReset"
+                                style="color:#4a4a4a"
+                                class="normal_button"
+                                disabled="disabled"
+                                value="Reset"
+                                tabindex="2"
+                                onclick="TSOS.Control.hostBtnReset_click(this);">
+                        
+                      </div>
+                  </div>
+              </div>
+          </nav>
+        </div> <!-- end of hero head-->
 
-<div id="divMain" style="width:100%;">
-   <div class="row">
-      <div class="col-sm-6" id="divButtonBar">
-         <input type="button"
-                id = "btnStartOS"
-                name="brnStartOS"
-                class="normal_button"
-                value="Start"
-                tabindex="0"
-                onclick="TSOS.Control.hostBtnStartOS_click(this);">
+        <div class="hero-body" style="padding-top: 0">
+            <div class="columns" style=" max-width: 1800px; width: 100%; margin: 0 auto;">
+                <div class="column is-narrow">
+                    <div class="" id="statusCard">
+                        <h3 class="card-header" id="dateText" style="margin: 0; text-align: left;">Date:
+                        </h3>
+                        <div class="card card-body">
+                            <h3 class="card-text" id="statusText" style="text-align: Left; ">Status: 
+                            </h3>
+                       </div>
+                    </div>
 
-         <input type="button"
-                id = "btnHaltOS"
-                name="brnHaltOS"
-                class="normal_button"
-                disabled="disabled"
-                value="Halt"
-                tabindex="1"
-                onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+                    <div class="card" id="canvas-card">
+                        <div id="canvas-wrapper" class="card-content"
+                         style="overflow-y: auto; padding: 0.5rem; background-color: #FDF6E3; max-height: 523px;">
+                              <canvas id="display"
+                                      width="500px"
+                                      height="400px"
+                                      tabindex="3">
+                              </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-one-third">
 
-         <input type="button"
-                id = "btnReset"
-                name="brnReset"
-                class="normal_button"
-                disabled="disabled"
-                value="Reset"
-                tabindex="2"
-                onclick="TSOS.Control.hostBtnReset_click(this);">
-      </div>
-       <div class="card col-sm-6" id="statusCard">
-           <h3 class="card-header" id="dateText" style="margin: 0; text-align: left;">Date:</h3>
-           <div class="card card-body">
-               <h3 class="card-text" id="statusText" style="text-align: Left; ">Status: </h3>
-           </div>
-       </div>
+                    <div class="card x1">
+                        <header class="card-header">
+                            <p class="card-header-title">Memory</p>
+                        </header>
 
-   </div>
+                        <div class="card-content" id="memContent" style="overflow-x: auto;">
+                            <table id="memTable" 
+                                   style="color:black; height: 100px; overflow: auto;"
+                                   class="table striped is-fullwidth"
+                                   name="memTable">
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card" id="cpuDisp" style="overflow-x:auto;">
+                        <header id="" class="card-header-title">
+                              CPU
+                        </header>
+                        <table name =""
+                               id ="cpuTable"
+                               style = "color: black; width: 100%;"
+                               class="table table-bordered">        
+                            <thead>
+                                <tr>
+                                    <th>IR</th>
+                                    <th>PC</th>
+                                    <th>Acc</th>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                    <th>Z</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody id="cpuContent" class="card-content" style="width:inherit;">
+                                  <tr>
+                                      <td>0</td>
+                                      <td>0</td>
+                                      <td>0</td>  
+                                      <td>0</td>
+                                      <td>0</td>
+                                      <td>0</td>
+                                  </tr>
+                              </tbody>
+                          </table>          
+                      </div>
+                </div>
+                <div class="column is-one-third">
+                    <div id="log" class="card" id="divLog">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                  Host Log
+                            </p>
+                        </header>
+                        <textarea class="form-control" 
+                                name="taHostLog" 
+                                id  ="taHostLog">      
+                        </textarea>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-half" style="" id="memColumn">
+                            <div class="card" id="divUserProgramInput">
+                                <header class="card-header">
+                                      <p class="card-header-title">
+                                            User Program Input
+                                      </p>
+                                </header>
+                                <textarea name="taProgramInput"
+                                           id  ="taProgramInput"
+                                 >AD 10 00 8D 07 00 AF AF 6D 07 00 A2 FF AF A9 3D AF AE 00 00 AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF DD DD</textarea>                      
+                            </div>
+                        </div>
+                        <div class="column is-half" id="cpuColumn">
+              
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end columns -->
+       
+        </div> <!-- end of hero body -->
 
-   <div class="row" id="logRow">
-       <div class="col-sm-6" id="divConsole">
-          <canvas id="display"
-                  width="500px"
-                  height="400px"
-                  tabindex="3">
-          </canvas>
-       </div>
-
-       <div class="col-sm-6" id="divLog">
-          <label id="hostLog">
-             Host Log
-             <br>
-             <textarea class="form-control" name="taHostLog"
-                       id  ="taHostLog"
-                       rows="22"
-                       cols="55"
-             ></textarea>
-          </label>
-       </div>
-   </div>
-
-   <div class="col-sm-6" id="divUserProgramInput">
-      <label>
-         User Program Input
-         <br>
-         <textarea name="taProgramInput"
-                   id  ="taProgramInput"
-                   rows="8"
-                   cols="48"
-         >  AD 10  00  8D 07  00 AF  AF
- 6D  07 00 A2 FF  AF A9  3D
- AF  AE 00  00 AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF AF  AF
- AF  AF AF  AF AF  AF DD  D</textarea>
-      </label>
-   </div>
-    <br>
-    <label>Memory Display</label>
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a id="memory-0-tab" href=".memory0" role="tab" data-toggle="tab">Segment 0</a>
-        </li>
-        <li>
-            <a id="memory-1-tab" href=".memory1" role="tab" data-toggle="tab">Segment 1</a>
-        </li>
-        <li>
-            <a id="memory-2-tab" href=".memory2" role="tab" data-toggle="tab">Segment 2</a>
-        </li>
-    </ul>
-    <div class="tab-content col-sm-6" style="font-family: monospace;">
-        <div class="tab-pane active memory0" style="font-weight: bold;">
-            <div id="memoryScrolling0" class="panel panel-default memoryDisplay">
-                <table class="table table-striped">
-                    <tbody id="memory0Display"></tbody>
-                </table>
-            </div>
-        </div>
-        <div class="tab-pane memory1" style="font-weight: bold;">
-            <div id="memoryScrolling1" class="panel panel-default memoryDisplay">
-                <table class="table table-striped">
-                    <tbody id="memory1Display"></tbody>
-                </table>
-            </div>
-        </div>
-        <div class="tab-pane memory2" style="font-weight: bold;">
-            <div id="memoryScrolling2" class="panel panel-default memoryDisplay">
-                <table class="table table-striped">
-                    <tbody id="memory2Display"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<p class="footerText" style="clear:both;">
+    </div> <!-- end of main -->
+  </section>
+    <script type="text/javascript" src="js/jascript.js"></script>
+</body>
+<footer class="footerText" style="clear:both;">
    <br>
-   Copyright &copy; 2008 - 2016 No Rights Reserved.
+   Copyright &copy; 2018 No Rights Reserved.
    <br>
    Reproduction is inhibited without the express written consent of
    Ted Codd, Stevie Ray Vaughan, and Ian Fleming.
-</p>
+</footer>
 
-</body>
 </html>

@@ -25,8 +25,6 @@ module TSOS {
         public shellState = "Running";
 
         constructor() {
-            _ResidentQueue = new Queue();
-            _ReadyQueue = new Queue();
         }
 
         public init() {
@@ -414,27 +412,50 @@ module TSOS {
             _Kernel.krnTrapError(msg);
         }
 
-        public shellLoad(){
+        public shellLoad(args?){
+            //console.log(_Memory.array);
             //load user input and check that its hex
             var doc = (<HTMLInputElement> document.getElementById("taProgramInput")).value; //get value of doc
-            var a = doc.toString();
+            doc = doc.replace(/\r?\n|\r/g, " ");
+            doc = doc.replace(/\s+/g, " ").trim();
             var regX = /^[\d\sa-fA-F]+$/;
-            var len = _ResidentQueue.getSize();
-            //if we run into a character we dont have a case for, i.e. the default
-            if(!regX.test(a)){
-                _StdOut.putText("Invalid Program Data.");
-                _StdOut.advanceLine();
-            }else{
-                _Memory.load(a, _Memory.partA);
-                var inReg = _Memory.partA[0].varX + _Memory.partA[0].varY;
-                _ResidentQueue.enqueue(new Pcb('new', len, 0, 0, 0, 0, inReg.toString(),
-                                            0, "", _Memory.partA));
+            var isValid = true;
+            var arr = doc.split(" ");
+            var priority: number = 0;
 
-                _StdOut.putText("Program input accepted. " + "PID: " + _ResidentQueue.q[len].pId.toString());
+            if (args.length > 1) {
+                _StdOut.putText("Please supply a valid priority number (0 is highest, 1 is default).");
+                return;
+            }
+            if (args.length == 1) {
+                if (!args[0].match(/^[0-9]\d*$/)) {
+                    _StdOut.putText("Please supply a valid priority number (0 is highest, 1 is default).");
+                    return;
+                }else{
+                    priority = args[0];
+                }
+            }
+            //test for invalid character
+            for(var i = 0; i < arr.length; i++){
+                var byteCode = arr[i];
+                if((regX.test(byteCode) && byteCode.length == 2)){
+                    /*console.log("Valid byte: " + byteCode)*/;
+                }else{
+                    isValid = false;
+                    _StdOut.putText("Invalid Code: " + byteCode);
+                    return;
+                }
+            }
+            //check validity marker
+            if(isValid){
+                _StdOut.putText("Code accepted.. Creating Process");
                 _StdOut.advanceLine();
-                //console.log(_ResidentQueue.dequeue());;
-                //console.log(_ResidentQueue.q[len]);
-                //_ResidentQueue.toString();
+                var program = _ProcessManager.newProcess(arr, priority);
+                var a:string = _Memory.array.toString();
+                console.log(a);
+                console.log(_MMU.parts);
+                console.log(program)
+
             }
         }
 
@@ -448,7 +469,7 @@ module TSOS {
                         console.log( _ResidentQueue.q);
                         _ResidentQueue.q[i].prState = 'running';
                         _ReadyQueue.enqueue(_ResidentQueue.q[i]);
-                        _CPU.cycle(_ResidentQueue.q[i], _ResidentQueue.q[i].part);
+                        _CPU.cycle(_ResidentQueue.q[i], _ResidentQueue.q[i]);
                     }
                 }
                 console.log("Ready Queue: ");

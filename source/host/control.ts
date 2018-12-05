@@ -71,10 +71,10 @@ module TSOS {
 
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
-            _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
-
-            //new
+                              //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
+            //initialize memory
             _Memory = new Mem();
+            this.MemView();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
@@ -98,6 +98,46 @@ module TSOS {
             // That boolean parameter is the 'forceget' flag. When it is true it causes the page to always
             // be reloaded from the server. If it is false or not specified the browser may reload the
             // page from its cache, which is not what we want.
+        }
+
+        public static MemView(): void {
+            var memTable = document.getElementById('memTable');
+            var counter:number = 0;
+            //for ever 8 items do the work
+            for(let i = 0; i < _Memory.array.length / 8; i++){
+                //row address
+                var rowAddr = i * 8;
+                //create current row and create first cell
+                var currentRow = memTable.insertRow();
+                var firstCell = currentRow.insertCell(0);
+
+                var hexAddr: string = "0x";
+                if(rowAddr.toString(16).length == 1){
+                    hexAddr+="00";
+                }
+                if(rowAddr.toString(16).length == 2){
+                    console.log("Value 1: " + (rowAddr.toString(16).length));
+                    hexAddr += "0";
+                    console.log("Counter: " + counter);
+                    console.log("rowAddr: " + rowAddr);
+                    console.log("rowAddr 16: " + rowAddr.toString(16).toUpperCase());
+                    console.log("Hex: " + hexAddr);
+                    /*console.log("Hex: " + hexAddr);
+                    console.log("RowAddy: " + rowAddr);*/
+                }
+                //fill all cells in each row
+                for(let n = 0; n < 8; n++){
+                    var rowCell = currentRow.insertCell();
+                    rowCell.innerHTML = "00";
+                }
+                console.log("Value 1 second: " + (rowAddr.toString(16).length));
+
+
+                hexAddr += rowAddr.toString(16).toUpperCase();
+                firstCell.innerHTML = hexAddr;
+                counter++;
+
+            }
         }
     }
 }

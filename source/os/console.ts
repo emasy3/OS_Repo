@@ -251,7 +251,7 @@ module TSOS {
                     _DrawingContext.drawImage(newImg, 0, 0);              //draw on load
                 }
             }
-            document.getElementById("divConsole").scrollTop = changeYPosition; //scroll to ypos
+            document.getElementById("canvas-wrapper").scrollTop = changeYPosition; //scroll to ypos
         }
 
         public delChar(): void {

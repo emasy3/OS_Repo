@@ -20,21 +20,13 @@ module TSOS {
     export class Cpu {
 
         constructor(public PC: number = 0,
-                    public Acc: number = 0,
-                    public Xreg: number = 0,
+                    public Ireg: string = "",
+                    public Acc: string = "",
+                    public Xreg: string = "",
                     public Yreg: number = 0,
-                    public Zflag: number = 0,
+                    public Zflag: string = "",
                     public isExecuting: boolean = false,) {
 
-        }
-
-        public init(): void {
-            this.PC = 0;
-            this.Acc = 0;
-            this.Xreg = 0;
-            this.Yreg = 0;
-            this.Zflag = 0;
-            this.isExecuting = false;
         }
 
         public cycle(pcb?, part?): void {
@@ -198,9 +190,9 @@ module TSOS {
                            var HxVal = Number(parseInt(part[partIndx].varX + part[partIndx].varY, 16));
                            var HxRegX = Number(parseInt(pcb.regX,16));
                            if(HxVal === HxRegX){
-                               this.Zflag = Number(parseInt("00", 16));
+                               this.Zflag = "00";
                            }else {
-                               this.Zflag = Number(parseInt("01", 16));
+                               this.Zflag = "01";
                            }
                        }else{
                            console.log("Invalid hex value");
@@ -211,12 +203,18 @@ module TSOS {
                        break;
                    //BNE
                    case "D0":
+                       //branch n bytes if Z flag = 0
                        break;
                    //INC
                    case "EE":
+                       //Increment the value of a byte
                        break;
                    //SYS
                    case "FF":
+                       //System Call
+                       //01 Xreg =print the value of integer stored in Y reg
+                       //02 Xreg = print the value of the 00-terminated string stored at the address in the Y register
+
                        break;
                    default:
                        /*pcb.inReg = "00";

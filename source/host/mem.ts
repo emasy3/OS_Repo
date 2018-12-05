@@ -16,42 +16,22 @@
      ------------ */
 
 
-class PairVal {
-    public varX: number = 0;
-    public varY: number = 0;
-}
-
 module TSOS {
 
     export class Mem {
-        public partA: PairVal[] = [];
+        public array;
 
         constructor() {
-            for(var i: number = 0; i < 256; i++){
-              this.partA[i] = new PairVal();
+            this.array = new Array(768);
+
+            for(let i = 0; i < this.array.length; i++){
+                this.array[i] = "00";
             }
         }
 
-        public  load(str, part): void {
-            var input = str.replace(/\s/g, '');
-            var j = 0;
-            for(let i = 0; i < str.length; i+=2){
-                //check if current input value or the next value is undefined
-                if(input[i] === undefined){
-                    break;
-                }else if(((i % 2) === 0) && input[i + 1] === undefined){
-                    input += "0";
-                }
-                var pairVal = new PairVal();
-                pairVal.varX = input[i];
-                pairVal.varY = input[i + 1];
-                if(i < 512){
-                    part[j] = pairVal;
-                }
-                j+=1;
-            }
-        }
+
         public print(part): any {
+
             /*for(var i = 0; i < part.length; i++){
                 console.log("varX: " + part[i].varX + " varY: " + part[i].varY);
             }*/

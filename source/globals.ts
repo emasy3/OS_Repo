@@ -47,6 +47,7 @@ var _Kernel: TSOS.Kernel;
 
 var _ResidentQueue;
 var _ReadyQueue;
+var _Pid;
 
 var _KernelInterruptQueue;          // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue: any = null;  // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
@@ -59,6 +60,12 @@ var _StdOut;
 // UI
 var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;
+
+//
+// The OS's memory manager
+var _MMU = null;
+// The OS's process manager
+var _ProcessManager = null;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
