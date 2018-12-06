@@ -379,9 +379,11 @@ var TSOS;
                 _StdOut.putText("Code accepted.. Creating Process");
                 _StdOut.advanceLine();
                 var program = _ProcessManager.newProcess(arr, priority);
+                TSOS.Control.memUpdate();
                 var a = _Memory.array.toString();
                 console.log(a);
                 console.log(_MMU.parts);
+                console.log(_Memory.array);
                 console.log(program);
             }
         };

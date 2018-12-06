@@ -80,13 +80,13 @@ textarea{
   margin: 0;
   display: inline-block;
 }
-#memTable td{
+#memoryTable td{
   padding: .6em .9em !important;
 }
-#memTable{
+#memoryTable{
   overflow-x: scroll;
 }
-#memTable td{
+#memoryTable td{
   width: 12.5%;
 }
 #cpuTable th{

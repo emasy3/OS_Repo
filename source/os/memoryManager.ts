@@ -23,7 +23,7 @@ module TSOS {
                 this.parts[i] = new Partition();
                 this.parts[i].length = 256;
                 this.parts[i].floor = i*256;
-                this.parts[i].ceiling = (i+1)*this.partitionLength;
+                this.parts[i].ceiling = ((i+1)*this.partitionLength) - 1;
                 this.parts[i].isEmpty = true;
                 this.parts[i].partition = new Array(256);
             }
@@ -45,20 +45,22 @@ module TSOS {
 
             }
         }
-        public print(part): any {
+        public gerPart(part): any {
 
-            /*for(var i = 0; i < part.length; i++){
-                console.log("varX: " + part[i].varX + " varY: " + part[i].varY);
-            }*/
-            return part.valueOf();
+
         }
         //get and return available partition
         public findEmptyPart(codeLen): number {
             var parts = this.parts;
+            var result: number = null;
             for(let i = 0; i < parts.length; i++){
                 if(parts[i].isEmpty && parts[i].ceiling >= codeLen){
-                    return i;
+                    result = i;
+                    return result;
                 }
+            }
+            if(result = null){
+                console.log("No memory");
             }
             return null;
         }
