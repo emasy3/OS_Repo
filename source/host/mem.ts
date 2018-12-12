@@ -1,3 +1,4 @@
+///<reference path="../globals.ts" />
 
 /* ------------
      Mem.ts
@@ -8,7 +9,7 @@
 
 module TSOS {
 
-    export class Mem {
+    export class Memory {
         public array;
         //self explanatory; creates and fills memory array with zeros size of 3 256 byte partitions
         constructor() {

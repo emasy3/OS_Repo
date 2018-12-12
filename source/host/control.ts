@@ -73,7 +73,7 @@ module TSOS {
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
                               //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
             //initialize memory
-            _Memory = new Mem();
+            _Memory = new Memory();
             this.memView();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);

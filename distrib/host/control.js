@@ -58,7 +58,7 @@ var TSOS;
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
             //initialize memory
-            _Memory = new TSOS.Mem();
+            _Memory = new TSOS.Memory();
             this.memView();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
