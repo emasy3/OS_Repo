@@ -81,8 +81,9 @@ var TSOS;
                 _CPU.cycle();
                 TSOS.Control.cpuViewUpdate();
                 TSOS.Control.memViewUpdate();
-                console.log("cycle:");
                 TSOS.Control.pcbViewUpdate();
+                console.log("cycle:");
+                //Control.pcbViewUpdate();
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");

@@ -174,15 +174,16 @@ var TSOS;
         Control.pcbViewUpdate = function () {
             //check if the tables rows minus the header row, is less then the length of our resident queue of pcbs
             var pcbTable = document.getElementById("pcbTable");
-            if (pcbTable.rows.length - 1 < _ResidentQueue.q.length) {
+            if (pcbTable.rows.length - 1 === _ResidentQueue.q.length) {
+                this.pcbRowUpdate(pcbTable);
+                console.log("first");
+            }
+            else {
                 //if it is, add a new row and do the work and return
                 this.pcbNewRow(pcbTable);
-                console.log("resident q " + _ResidentQueue.q.length);
-                console.log("pcb table -1 " + (pcbTable.rows.length - 1));
-                return;
+                console.log("resident q length: " + _ResidentQueue.q.length);
+                console.log("pcb table length-1: " + (pcbTable.rows.length - 1));
             }
-            //otherwise, run psb update
-            this.pcbRowUpdate(pcbTable);
         };
         Control.pcbRowUpdate = function (table) {
             //for each pcb in the Resident queue starting from 0, update their corresponding display
@@ -237,7 +238,7 @@ var TSOS;
             }
         };
         Control.pcbNewRow = function (table) {
-            for (var i = 0; i < _ResidentQueue.q.length; i++) {
+            for (var i = table.rows.length - 1; i < _ResidentQueue.q.length; i++) {
                 var row = table.insertRow();
                 var program = _ResidentQueue.q[i];
                 //_ResidentQueue.enqueue(program);

@@ -93,8 +93,9 @@ module TSOS {
                 _CPU.cycle();
                 Control.cpuViewUpdate();
                 Control.memViewUpdate();
-                console.log("cycle:")
                 Control.pcbViewUpdate();
+                console.log("cycle:");
+                //Control.pcbViewUpdate();
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
                 //check ready queue

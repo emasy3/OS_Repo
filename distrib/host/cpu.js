@@ -86,7 +86,6 @@ var TSOS;
                         this.Ireg = _MemoryManager.readMem(this.PC);
                         this.PC += 3;
                         pcb.prgCounter = this.PC;
-                        this.isExecuting = false;
                         break;
                     //ADC adds mem value to accumulator
                     case "6D":

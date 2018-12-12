@@ -46,209 +46,209 @@
 
 <body onload="onDocumentLoad()" class="hero is-info is-fullwidth is-fullheight is-bold" style="overflow-y: auto;">
     <section>
-
+    <div id="main" class="row span12" style="width:100%; height: 100%; padding: 0; margin: 0;">
        
-    <div class="hero-head">
-      <nav class="navbar">
-          <div class="navbar-brand">
-              <a class="navbar-item" href="/">
-                  <img src="http://bulma.io/images/bulma-logo.png" alt="Logo">
-              </a>
-              <!--
-              Using the v-on: directive to listen for the click event and toggle the data property showNav. Also, using the v-bind: directive to reactively update the class attribute 'is-active' based on the showNav property.
+        <div class="hero-head">
+          <nav class="navbar">
+              <div class="navbar-brand">
+                  <a class="navbar-item" href="/">
+                      <img src="http://bulma.io/images/bulma-logo.png" alt="Logo">
+                  </a>
+                  <!--
+                  Using the v-on: directive to listen for the click event and toggle the data property showNav. Also, using the v-bind: directive to reactively update the class attribute 'is-active' based on the showNav property.
+                  -->
+                  <div class="navbar-burger" @click="showNav = !showNav" :class="{ 'is-active': showNav }">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </div>
+              </div>
+                <!--
+              Using the v-bind: directive to reactively update the class attribute 'is-active' based on the showNav property.
               -->
-              <div class="navbar-burger" @click="showNav = !showNav" :class="{ 'is-active': showNav }">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-              </div>
-          </div>
-            <!--
-          Using the v-bind: directive to reactively update the class attribute 'is-active' based on the showNav property.
-          -->
-          <div class="navbar-menu" id="" :class="{ 'is-active': showNav }">
-              <div class="navbar-end">
-                  <div class="navbar-item" style="text-align: center">
-                      <input type="button"
-                            id = "btnStartOS"
-                            style="color:#4a4a4a"
-                            name="brnStartOS"
-                            class="normal_button"
-                            value="Start"
-                            tabindex="0"
-                            onclick="TSOS.Control.hostBtnStartOS_click(this);">
-                  </div>
-                  <div class="navbar-item" style="text-align: center">
-                      <input type="button"
-                            id = "btnHaltOS"
-                            name="brnHaltOS"
-                            style="color:#4a4a4a"
-                            class="normal_button"
-                            disabled="disabled"
-                            value="Halt"
-                            tabindex="1"
-                            onclick="TSOS.Control.hostBtnHaltOS_click(this);">
-                  </div>
-                  <div class="navbar-item" style="text-align: center">
-                      <input type="button"
-                            id = "btnReset"
-                            name="brnReset"
-                            style="color:#4a4a4a"
-                            class="normal_button"
-                            disabled="disabled"
-                            value="Reset"
-                            tabindex="2"
-                            onclick="TSOS.Control.hostBtnReset_click(this);">
-
-                  </div>
-                  <div class="column is-half">
-                      <div class="" id="statusCard">
-                          <h3 class="card-header" id="dateText" style="margin: 0; text-align: left;">Date:
-                          </h3>
-                          <div class="card card-body">
-                              <h3 class="card-text" id="statusText" style="text-align: Left; ">Status:
-                              </h3>
-                          </div>
+              <div class="navbar-menu" id="" :class="{ 'is-active': showNav }">
+                  <div class="navbar-end">
+                      <div class="navbar-item" style="text-align: center">
+                          <input type="button"
+                                id = "btnStartOS"
+                                style="color:#4a4a4a"
+                                name="brnStartOS"
+                                class="normal_button"
+                                value="Start"
+                                tabindex="0"
+                                onclick="TSOS.Control.hostBtnStartOS_click(this);">
                       </div>
+                      <div class="navbar-item" style="text-align: center">
+                          <input type="button"
+                                id = "btnHaltOS"
+                                name="brnHaltOS"
+                                style="color:#4a4a4a"
+                                class="normal_button"
+                                disabled="disabled"
+                                value="Halt"
+                                tabindex="1"
+                                onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+                      </div>
+                      <div class="navbar-item" style="text-align: center">
+                          <input type="button"
+                                id = "btnReset"
+                                name="brnReset"
+                                style="color:#4a4a4a"
+                                class="normal_button"
+                                disabled="disabled"
+                                value="Reset"
+                                tabindex="2"
+                                onclick="TSOS.Control.hostBtnReset_click(this);">
 
+                      </div>
+                      <div class="column is-half">
+                          <div class="" id="statusCard">
+                              <h3 class="card-header" id="dateText" style="margin: 0; text-align: left;">Date:
+                              </h3>
+                              <div class="card card-body">
+                                  <h3 class="card-text" id="statusText" style="text-align: Left; ">Status:
+                                  </h3>
+                              </div>
+                          </div>
+
+                      </div>
                   </div>
               </div>
-          </div>
-      </nav>
-    </div> <!-- end of hero head-->
+          </nav>
+        </div> <!-- end of hero head-->
 
-    <div class="hero-body" style="padding-top: 0">
-        <div class="columns" style=" max-width: 1800px; width: 100%; margin: 0 auto;">
-            <div class="column is-one-third">
+        <div class="hero-body" style="padding-top: 0">
+            <div class="columns" style=" max-width: 1800px; width: 100%; margin: 0 auto;">
+                <div class="column is-one-third">
 
-                <div class="card" id="canvas-card"
-                     style="padding: 0;">
-                    <div id="canvas-wrapper" class="card-content"
-                     style="overflow-y: auto; padding: 0.5rem; background-color: #FDF6E3; max-height: 523px; width: 100%;">
-                          <canvas id="display"
-                                  width="550em"
-                                  style="display: block; padding-right: 0em;"
-                                  height="400px"
-                                  tabindex="3">
-                          </canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-one-third">
-
-                <div id="log" class="card" id="divLog">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Host Log
-                        </p>
-                    </header>
-                    <textarea class="form-control"
-                              name="taHostLog"
-                              id  ="taHostLog">
-                    </textarea>
-                </div>
-                <br>
-                <div class="columns">
-
-                    <div class="column is-half" style="" id="memColumn">
-                        <div class="card" id="divUserProgramInput">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    User Program Input
-                                </p>
-                            </header>
-                            <textarea name="taProgramInput"
-                                      id  ="taProgramInput"
-                            >A2 02 A0 20 A9 07 8D 08 00 FF 00 A0 FF AF A9 3D AF AE 00 00 AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF DD DD
-                            </textarea>
+                    <div class="card" id="canvas-card"
+                         style="padding: 0;">
+                        <div id="canvas-wrapper" class="card-content"
+                         style="overflow-y: auto; padding: 0.5rem; background-color: #FDF6E3; max-height: 523px; width: 100%;">
+                              <canvas id="display"
+                                      width="550em"
+                                      style="display: block; padding-right: 0em;"
+                                      height="400px"
+                                      tabindex="3">
+                              </canvas>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="column is-one-third">
+                <div class="column is-one-third">
 
-                <div class="card x1">
-                    <header class="card-header">
-                        <p class="card-header-title">Memory</p>
-                    </header>
+                    <div id="log" class="card" id="divLog">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Host Log
+                            </p>
+                        </header>
+                        <textarea class="form-control"
+                                  name="taHostLog"
+                                  id  ="taHostLog">
+                        </textarea>
+                    </div>
+                    <br>
+                    <div class="columns">
 
-                    <div class="card-content" id="memContent" style="overflow-x: auto;">
-                        <table id="memoryTable"
-                               style="color:black; height: 100px; overflow: auto;"
-                               class="table striped is-fullwidth"
-                               name="memoryTable">
-                        </table>
+                        <div class="column is-half" style="" id="memColumn">
+                            <div class="card" id="divUserProgramInput">
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        User Program Input
+                                    </p>
+                                </header>
+                                <textarea name="taProgramInput"
+                                          id  ="taProgramInput"
+                                >A2 02 A0 20 A9 07 8D 08 00 FF 00 A0 FF AF A9 3D AF AE 00 00 AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF DD DD
+                                </textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <div class="card" id="cpuDisp" style="overflow-x:auto;">
-                    <div class="card-header-title">
-                          CPU
+                <div class="column is-one-third">
+
+                    <div class="card x1">
+                        <header class="card-header">
+                            <p class="card-header-title">Memory</p>
+                        </header>
+
+                        <div class="card-content" id="memContent" style="overflow-x: auto;">
+                            <table id="memoryTable"
+                                   style="color:black; height: 100px; overflow: auto;"
+                                   class="table striped is-fullwidth"
+                                   name="memoryTable">
+                            </table>
+                        </div>
                     </div>
-                    <div class="card-content"
-                         style="padding: 0;">
-                        <table
-                                id ="cpuTable"
-                                style = "color: black; width: 100%; padding: 0; margin: 0;"
-                                class="table table-bordered">
-                            <thead>
+                    <br>
+                    <div class="card" id="cpuDisp" style="overflow-x:auto;">
+                        <div class="card-header-title">
+                              CPU
+                        </div>
+                        <div class="card-content"
+                             style="padding: 0;">
+                            <table
+                                    id ="cpuTable"
+                                    style = "color: black; width: 100%; padding: 0; margin: 0;"
+                                    class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>IR</th>
+                                        <th>PC</th>
+                                        <th>Acc</th>
+                                        <th>X</th>
+                                        <th>Y</th>
+                                        <th>Z</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="cpuContent" style="width:inherit;">
                                 <tr>
-                                    <th>IR</th>
-                                    <th>PC</th>
-                                    <th>Acc</th>
-                                    <th>X</th>
-                                    <th>Y</th>
-                                    <th>Z</th>
+                                    <td>00</td>
+                                    <td>00</td>
+                                    <td>00</td>
+                                    <td>00</td>
+                                    <td>00</td>
+                                    <td>00</td>
                                 </tr>
-                            </thead>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card" id="pcbDisp" style="overflow-x:auto;">
+                        <div class="card-header-title">
+                            PCB
+                        </div>
+                        <div class="card-content"
+                             style="padding: 0;">
+                            <table id ="pcbTable"
+                                   style = "color: black; width: 100%; padding: 0; margin: 0;"
+                                   class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Pid</th>
+                                        <th>Location</th>
+                                        <th>Priority</th>
+                                        <th>State</th>
+                                        <th>IR</th>
+                                        <th>PC</th>
+                                        <th>Acc</th>
+                                        <th>X</th>
+                                        <th>Y</th>
+                                        <th>Z</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pcbContent" style="width:inherit;">
 
-                            <tbody id="cpuContent" style="width:inherit;">
-                            <tr>
-                                <td>00</td>
-                                <td>00</td>
-                                <td>00</td>
-                                <td>00</td>
-                                <td>00</td>
-                                <td>00</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+
+                        </div>
+
                     </div>
                 </div>
-                <br>
-                <div class="card" id="pcbDisp" style="overflow-x:auto;">
-                    <div class="card-header-title">
-                        PCB
-                    </div>
-                    <div class="card-content"
-                         style="padding: 0;">
-                        <table id ="pcbTable"
-                               style = "color: black; width: 100%; padding: 0; margin: 0;"
-                               class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Pid</th>
-                                    <th>Location</th>
-                                    <th>Priority</th>
-                                    <th>State</th>
-                                    <th>IR</th>
-                                    <th>PC</th>
-                                    <th>Acc</th>
-                                    <th>X</th>
-                                    <th>Y</th>
-                                    <th>Z</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pcbContent" style="width:inherit;">
-
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                </div>
-            </div>
-        </div> <!-- end columns -->
+            </div> <!-- end columns -->
 
         </div> <!-- end of hero body -->
         <footer class="footerText is-info" style="clear:both;">
@@ -259,6 +259,7 @@
             Ted Codd, Stevie Ray Vaughan, and Ian Fleming.
         </footer>
 
+    </div> <!-- end of main -->
   </section>
     <script type="text/javascript" src="js/jascript.js"></script>
 </body>
