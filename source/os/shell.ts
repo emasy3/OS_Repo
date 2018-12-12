@@ -136,6 +136,11 @@ module TSOS {
                                     "clearmem",
                                     "<string> - clear partitions");
             this.commandList[this.commandList.length] = sc;
+            //clear memory
+            sc = new ShellCommand(this.shellRunAll,
+                                    "runall",
+                                    "<string> - run all programs loaded in memory or disk");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -490,11 +495,15 @@ module TSOS {
             //console.log(_ReadyQueue.dequeue());
         }
         public shellClearMem(){
-            for(var i=0; i < _MemoryManager.parts.length; i++){
+            for(var i = 0; i < _MemoryManager.parts.length; i++){
                 _MemoryManager.clearPart(0);
             }
         }
-        public shellRunAll(){}
+        public shellRunAll(){
+            for(var i = 0; i < _ResidentQueue.q.length; i++){
+                _ReadyQueue.enqueue(_ResidentQueue.q[i]);
+            }
+        }
 
     }
 }

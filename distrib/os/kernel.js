@@ -150,11 +150,12 @@ var TSOS;
                     console.log("MemAddress in y reg: " + byteAddr);
                     ///while loop checks if current byte address is equal to 00
                     while (_Memory.array[byteAddr] != "00") {
-                        console.log(_Memory.array[byteAddr]);
+                        //console.log(_Memory.array[byteAddr]);
                         _Console.buffer += _Memory.array[byteAddr];
                         this.bufferCheck(_Console.buffer, byteAddr);
                         byteAddr++;
                     }
+                    _StdOut.advanceLine(1);
                     break;
             }
         };

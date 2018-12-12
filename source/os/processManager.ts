@@ -46,6 +46,8 @@ module TSOS {
             this.currentPCB = _ReadyQueue.dequeue();
             _CPU.sync(this.currentPCB);
             this.currentPCB.prState = "running";
+            _StdOut.putText("Running process " + this.currentPCB.pId);
+            _StdOut.advanceLine();
 
         }
         public killProcess(){
@@ -56,6 +58,8 @@ module TSOS {
             this.currentPCB.prState = "finished";
             //update views(tables)
             Control.memViewUpdate();
+            _StdOut.putText("Exiting process " + this.currentPCB.pId);
+            _StdOut.advanceLine(2);
             Control.hostLog("Exiting process " + this.currentPCB.pId, "os");
             Control.cpuViewUpdate();
             Control.pcbViewUpdate();

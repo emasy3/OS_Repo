@@ -43,6 +43,8 @@ var TSOS;
             this.currentPCB = _ReadyQueue.dequeue();
             _CPU.sync(this.currentPCB);
             this.currentPCB.prState = "running";
+            _StdOut.putText("Running process " + this.currentPCB.pId);
+            _StdOut.advanceLine();
         };
         ProcessManager.prototype.killProcess = function () {
             //reset cpu and registers
@@ -52,6 +54,8 @@ var TSOS;
             this.currentPCB.prState = "finished";
             //update views(tables)
             TSOS.Control.memViewUpdate();
+            _StdOut.putText("Exiting process " + this.currentPCB.pId);
+            _StdOut.advanceLine(2);
             TSOS.Control.hostLog("Exiting process " + this.currentPCB.pId, "os");
             TSOS.Control.cpuViewUpdate();
             TSOS.Control.pcbViewUpdate();
