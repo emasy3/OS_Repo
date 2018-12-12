@@ -75,6 +75,9 @@ var TSOS;
             //run
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<string> - runs user code");
             this.commandList[this.commandList.length] = sc;
+            //clear memory
+            sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "<string> - clear partitions");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -413,6 +416,12 @@ var TSOS;
             }
             //console.log(_ReadyQueue.dequeue());
         };
+        Shell.prototype.shellClearMem = function () {
+            for (var i = 0; i < _MemoryManager.parts.length; i++) {
+                _MemoryManager.clearPart(0);
+            }
+        };
+        Shell.prototype.shellRunAll = function () { };
         return Shell;
     }());
     TSOS.Shell = Shell;

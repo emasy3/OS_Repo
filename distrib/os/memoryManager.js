@@ -91,6 +91,7 @@ var TSOS;
                 _Memory.array[i] = "00";
             }
             this.parts[indx].isEmpty = true;
+            TSOS.Control.memViewUpdate();
         };
         return MemoryManager;
     }());

@@ -128,8 +128,13 @@ module TSOS {
 
             //run
             sc = new ShellCommand(this.shellRun,
-                "run",
-                "<string> - runs user code");
+                                    "run",
+                                    "<string> - runs user code");
+            this.commandList[this.commandList.length] = sc;
+            //clear memory
+            sc = new ShellCommand(this.shellClearMem,
+                                    "clearmem",
+                                    "<string> - clear partitions");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -483,8 +488,13 @@ module TSOS {
                 _StdOut.putText("error");
             }
             //console.log(_ReadyQueue.dequeue());
-
         }
+        public shellClearMem(){
+            for(var i=0; i < _MemoryManager.parts.length; i++){
+                _MemoryManager.clearPart(0);
+            }
+        }
+        public shellRunAll(){}
 
     }
 }

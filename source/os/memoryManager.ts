@@ -98,6 +98,7 @@ module TSOS {
                 _Memory.array[i] = "00";
             }
             this.parts[indx].isEmpty = true;
+            Control.memViewUpdate();
         }
 
     }
