@@ -39,6 +39,8 @@ var TSOS;
             //
             // ... more?
             //
+            _ProcessManager = new TSOS.ProcessManager();
+            _MemoryManager = new TSOS.MemoryManager();
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();
@@ -77,9 +79,23 @@ var TSOS;
             }
             else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 _CPU.cycle();
+                TSOS.Control.cpuViewUpdate();
+                TSOS.Control.memViewUpdate();
+                console.log("cycle:");
+                TSOS.Control.pcbViewUpdate();
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
+                //check ready queue
+                this.checkReady();
+            }
+        };
+        Kernel.prototype.checkReady = function () {
+            if (_ReadyQueue.getSize() > 0) {
+                _ProcessManager.runProcess();
+            }
+            else {
+                _CPU.isExecuting = false;
             }
         };
         //
@@ -111,8 +127,36 @@ var TSOS;
                     _krnKeyboardDriver.isr(params); // Kernel mode device driver
                     _StdIn.handleInput();
                     break;
+                case TERMINATEPROG_IRQ:
+                    _ProcessManager.killProcess();
+                    break;
+                case SYSTEMCALL_IRQ:
+                    this.krnSystemCall(params);
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
+            }
+        };
+        Kernel.prototype.krnSystemCall = function (params) {
+            switch (params) {
+                case 1:
+                    //01 in x reg, so print byte in y
+                    _StdOut.putText(_CPU.Yreg.toString());
+                    break;
+                case 2:
+                    //02 in x reg, so print 00-terminate string stored at address in y reg
+                    var byteAddr = _CPU.Yreg + _ProcessManager.currentPCB.partition.ground;
+                    console.log("MemAddress in y reg: " + byteAddr);
+                    ///while loop checks if current byte address is equal to 00
+                    while (_Memory.array[byteAddr = byteAddr] != "00") {
+                        console.log(_Memory.array[byteAddr]);
+                        if (_Console.buffer.length > 59) {
+                            _StdOut.advanceLine();
+                        }
+                        _StdOut.putText(_Memory.array[byteAddr]);
+                        byteAddr++;
+                    }
+                    break;
             }
         };
         Kernel.prototype.krnTimerISR = function () {

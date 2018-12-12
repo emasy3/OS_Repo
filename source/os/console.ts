@@ -227,6 +227,7 @@ module TSOS {
             for(var i: number = 0; i <= num; i++){
                 this.advanceLine();
             }
+            this.buffer = "";
             this.currentXPosition = 0;
             /*
              * Font size measures from the baseline to the highest point in the font.
@@ -251,7 +252,7 @@ module TSOS {
                     _DrawingContext.drawImage(newImg, 0, 0);              //draw on load
                 }
             }
-            document.getElementById("divConsole").scrollTop = changeYPosition; //scroll to ypos
+            document.getElementById("canvas-wrapper").scrollTop = changeYPosition; //scroll to ypos
         }
 
         public delChar(): void {
@@ -259,6 +260,10 @@ module TSOS {
             this.buffer = this.buffer.slice(0,-1);                                   //cut character from buffer
             var ctx= _DrawingContext;
 
+            if(finalIndx == null){
+                console.log("Nothing to delete");
+                return;
+            }
             //clear letter from canvas
             var letrWidth = ctx.measureText(this.currentFont, this.currentFontSize, finalIndx);
             this.currentXPosition = this.currentXPosition - letrWidth;
@@ -270,6 +275,7 @@ module TSOS {
 
             _DrawingContext.fontClear(rectX, rectY, letrWidth, letrHeight, ctx);
         }
+
 
         static genCommands(a): any {                                       //helper function that makes an array of command attributes and returns it
             for (var i =0; i < _OsShell.commandList.length; i++){

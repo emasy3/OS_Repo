@@ -221,6 +221,7 @@ var TSOS;
             for (var i = 0; i <= num; i++) {
                 this.advanceLine();
             }
+            this.buffer = "";
             this.currentXPosition = 0;
             /*
              * Font size measures from the baseline to the highest point in the font.
@@ -243,12 +244,16 @@ var TSOS;
                     _DrawingContext.drawImage(newImg, 0, 0); //draw on load
                 };
             }
-            document.getElementById("divConsole").scrollTop = changeYPosition; //scroll to ypos
+            document.getElementById("canvas-wrapper").scrollTop = changeYPosition; //scroll to ypos
         };
         Console.prototype.delChar = function () {
             var finalIndx = this.buffer[this.buffer.length - 1]; //save final indx
             this.buffer = this.buffer.slice(0, -1); //cut character from buffer
             var ctx = _DrawingContext;
+            if (finalIndx == null) {
+                console.log("Nothing to delete");
+                return;
+            }
             //clear letter from canvas
             var letrWidth = ctx.measureText(this.currentFont, this.currentFontSize, finalIndx);
             this.currentXPosition = this.currentXPosition - letrWidth;

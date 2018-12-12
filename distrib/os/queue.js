@@ -11,7 +11,7 @@ var TSOS;
 (function (TSOS) {
     var Queue = /** @class */ (function () {
         function Queue(q) {
-            if (q === void 0) { q = new Array(); }
+            if (q === void 0) { q = []; }
             this.q = q;
         }
         Queue.prototype.getSize = function () {
@@ -31,11 +31,9 @@ var TSOS;
             return retVal;
         };
         Queue.prototype.toString = function () {
-            var retVal = "";
-            for (var i in this.q) {
-                retVal += "[" + this.q[i] + "] ";
+            for (var i = 0; i < this.getSize(); i++) {
+                console.log(this.q[i]);
             }
-            return retVal;
         };
         return Queue;
     }());

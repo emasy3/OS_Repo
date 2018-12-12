@@ -135,10 +135,9 @@ module TSOS {
         public static measure(font, size, str) {
             var total = 0;
             var len = str.length;
-
             for (var i = 0; i < len; i++) {
                 var c = CanvasTextFunctions.letter(str.charAt(i));
-                if (c) {
+                if(c){
                     total += c.width * size / 25.0;
                 }
             }
@@ -146,7 +145,6 @@ module TSOS {
         }
 
         public static clearChar(x, y, width, height, ctx){
-            console.log(ctx);
             ctx.clearRect(x, y, width, height);
         }
 
@@ -154,7 +152,6 @@ module TSOS {
             var total = 0;
             var len = str.length;
             var mag = size / 25.0;
-
             ctx.save();
             ctx.lineCap = "round";
             ctx.lineWidth = 2.0 * mag;
@@ -165,9 +162,17 @@ module TSOS {
                 if (!c) {
                     continue;
                 }
+                console.log("old buffer: "+ _Console.oldBuffer);
+                console.log("Canvas linecap: " + ctx.lineWidth);
+                console.log("buffer: "+ _Console.buffer.length);
+                console.log("canvas width " + ctx.width);
+                if( (_Canvas.width/_Console.buffer.length) < 11){
+                    console.log("buffer: " + _Console.buffer);
+                    console.log("buffer: " + ctx.width);
+                    _StdOut.advanceLine();
+                }
                 ctx.beginPath();
                 var penUp = true;
-                var needStroke = 0;
                 for (var j = 0; j < c.points.length; j++) {
                     var a = c.points[j];
                     if (a[0] === -1 && a[1] === -1) {

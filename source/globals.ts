@@ -1,3 +1,4 @@
+
 /* ------------
    Globals.ts
 
@@ -18,14 +19,17 @@ const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 100
 
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
-const KEYBOARD_IRQ: number = 1;
-
+const KEYBOARD_IRQ = 1;
+const TERMINATEPROG_IRQ = 2;
+const SYSTEMCALL_IRQ = 3;
 
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
+//memory
+var _Memory: TSOS.Mem;
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -41,6 +45,12 @@ var _Trace: boolean = true;  // Default the OS trace to be on.
 
 // The OS Kernel and its queues.
 var _Kernel: TSOS.Kernel;
+
+//queues
+var _ResidentQueue;
+var _ReadyQueue;
+
+
 var _KernelInterruptQueue;          // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue: any = null;  // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
 var _KernelBuffers: any[] = null;   // when clearly 'any' is not what we want. There is likely a better way, but what is it?
@@ -53,6 +63,12 @@ var _StdOut;
 var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;
 
+//
+// The OS's memory manager
+var _MemoryManager = null;
+// The OS's process manager
+var _ProcessManager = null;
+
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
 
@@ -60,6 +76,7 @@ var _SarcasticMode: boolean = false;
 var _krnKeyboardDriver; //  = null;
 
 var _hardwareClockID: number = null;
+
 
 // For testing (and enrichment)...
 var Glados: any = null;  // This is the function Glados() in glados.js on Labouseur.com.

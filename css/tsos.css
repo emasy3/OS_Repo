@@ -1,0 +1,158 @@
+/* TSOS.css */
+
+body {
+  background: #909193 url(../distrib/images/linen.png) repeat;
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+  font-size: 12pt;
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  color: black;
+  font-size: 24pt;
+  font-weight: normal;
+  font-style: normal;
+  border-bottom: 1px solid black;
+}
+
+h2 {
+  color: black;
+  font-size: 20pt;
+  font-weight: normal;
+  font-style: normal;
+}
+
+h3 {
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+  font-size: 16pt;
+  font-weight: normal;
+  font-style: normal;
+}
+textarea{
+  resize: none;
+}
+#cpuColumn{
+  padding-left: 0;
+  text-align: center;
+}
+
+#display {
+  background-color:#DFDBC3;
+  border: 2px solid red;
+  cursor: default;
+  margin: 0 0 0;
+}
+#statusCard {
+  height: 15%;
+  margin: 0;
+  margin-left: 1%;
+  background-color: whitesmoke;
+}
+.card{
+  background-color: whitesmoke;
+}
+#cardBody{
+  background-color: whitesmoke;
+}
+#log{ 
+  text-align: center;     
+}
+#logRow{
+  height: 50%;
+  width: 100%;
+  margin: 2% 0;
+}
+#taHostLog{
+  height: 100%; 
+  min-height: 120px; 
+  max-height: 120px;
+  font-size: 0.90em; 
+  width:95%;
+  padding: 5%; 
+  box-sizing: border-box;         /* For IE and modern versions of Chrome */
+  -moz-box-sizing: border-box;    /* For Firefox                          */
+  -webkit-box-sizing: border-box; /* For Safari                           */
+}
+#divUserProgramInput{
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  display: inline-block;
+}
+#memoryTable td{
+  padding: .6em .9em !important;
+}
+#memoryTable{
+  overflow-x: scroll;
+}
+#memoryTable td{
+  width: 12.5%;
+}
+#cpuTable th{
+  width: auto;
+  text-align: center;
+  padding: .8em;
+  border: 2px solid red;
+  display: table-cell;
+}
+#cpuTable td{
+  width: auto;
+  text-align: center;
+  border: 2px solid black;
+}
+
+#pcbTable th{
+  width: auto;
+  text-align: center;
+  padding: .8em;
+  border: 2px solid red;
+  display: table-cell;
+}
+#pcbTable td{
+  width: auto;
+  text-align: center;
+  border: 2px solid black;
+}
+
+
+#taProgramInput{
+  height: 100%; 
+  min-height: 120px; 
+  max-height: 120px; 
+  width:95%;
+  padding: 5%;
+}
+#hostLog{
+  width: 100%;
+}
+#divButtonBar{
+  width: 40%;
+  margin: 0 5%;
+}
+.normal_button {
+  width: 100px;
+}
+.navbar-item {
+  color:#4a4a4a !important;
+}
+
+.footerText {
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 8pt;
+  text-align: center;
+}
+.x1 tbody{
+  display:block;
+  overflow:auto;
+  height:200px;
+}
+#memContent, #cpuContent{
+  padding-left: 2%;
+  padding-right: 2%;
+}
+#pcbContent{
+  padding-left: 2%;
+  padding-right: 2%;
+}

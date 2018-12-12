@@ -86,7 +86,7 @@ module TSOS {
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
-            //Date
+             //Date
             sc = new ShellCommand(this.shellDate,
                                     "date",
                                    "- Displays the date and time.");
@@ -99,6 +99,7 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
             //magic8 ball
+            // language=HTML
             sc = new ShellCommand(TSOS.Shell.shellMagic,
                                      "magic8",
                                     "<string> - A magic8 ball.",
@@ -123,6 +124,12 @@ module TSOS {
             sc = new ShellCommand(this.shellLoad,
                                     "load",
                                    "<string> - Validates user code");
+            this.commandList[this.commandList.length] = sc;
+
+            //run
+            sc = new ShellCommand(this.shellRun,
+                "run",
+                "<string> - runs user code");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -405,124 +412,78 @@ module TSOS {
             _Kernel.krnTrapError(msg);
         }
 
-        public shellLoad(){
+        public shellLoad(args?){
+            //console.log(_Memory.array);
             //load user input and check that its hex
             var doc = (<HTMLInputElement> document.getElementById("taProgramInput")).value; //get value of doc
-            var a = doc.toString();
-            var arr = [a][0];
+            doc = doc.replace(/\r?\n|\r/g, " ");
+            doc = doc.replace(/\s+/g, " ").trim();
+            //regular expression used for testing whether user code is valid
+            var regX = /^[\d\sa-fA-F]+$/;
             var isValid = true;
-            var endOf = false;
-            var current;
-
-            if(a.length > 0){
-                while(isValid && !endOf){
-                    for(let i = 0; i < arr.length; i++){
-                        switch (arr[i]) {
-                            case "0":                                               //check the current value
-                                current = 0;                                       //set our holder
-                                console.log(current);                               //debugging
-                                if(i == (arr.length -1)){endOf = true;}            //check if i is the size of length-1
-                                break;                                             //and set our boolean to stop while
-                            case "1":
-                                current = 1;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "2":
-                                current = 2;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "3":
-                                current = 3;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "4":
-                                current = 4;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "5":
-                                current = 5;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "6":
-                                current = 6;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "7":
-                                current = 7;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "8":
-                                current = 8;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "9":
-                                current = 9;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "A":
-                                current = 10;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "B":
-                                current = 11;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "C":
-                                current = 12;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "D":
-                                current = 13;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "E":
-                                current = 14;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case "F":
-                                current = 15;
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                            case " ":
-                                current = " ";
-                                console.log(current);
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-
-                            default:
-                                isValid = false;
-                                current = arr[i].toString();
-                                if(i == (arr.length -1)){endOf = true;}
-                                break;
-                        }
-                    }
-                }
-                //if we run into a character we dont have a case for, i.e. the default
-                if(!isValid){
-                    _StdOut.putText("Invalid Program Data at: ");
-                    _StdOut.advanceLine();
-                    _StdOut.putText("   Instance: " + current);
-                    _StdOut.advanceLine();
+            //array obtained from doc splitting at spaces
+            var arr = doc.split(" ");
+            var priority: number = 0;
+            //check priority length for validity
+            if (args.length > 1) {
+                _StdOut.putText("Please supply a valid priority number (0 is highest, 1 is default).");
+                return;
+            }
+            if (args.length == 1) {
+                if (!args[0].match(/^[0-9]\d*$/)) {
+                    _StdOut.putText("Please supply a valid priority number (0 is highest, 1 is default).");
+                    return;
                 }else{
-                    console.log(arr);
-                    _StdOut.putText("Program input accepted");
+                    priority = args[0];
                 }
             }
+            //test for invalid character
+            for(var i = 0; i < arr.length; i++){
+                var byteCode = arr[i];
+                //regx from above used to tes our bytecode array
+                if((regX.test(byteCode) && byteCode.length == 2)){
+                    /*console.log("Valid byte: " + byteCode)*/
+                }else{
+                    isValid = false;
+                    _StdOut.putText("Invalid Code: " + byteCode);
+                    return;
+                }
+            }
+            //check validity marker
+            if(isValid){
+                _StdOut.putText("Code accepted.. Creating Process");
+                _StdOut.advanceLine();
+                //create new process
+                var program = _ProcessManager.newProcess(arr, priority);
+                Control.memViewUpdate();
+                Control.pcbViewUpdate();
+                console.log(program);
+                console.log(_ResidentQueue);
+            }
+        }
+
+        public shellRun(args){
+            //check for a pid
+            if(args.length > 0){
+                //used for debug
+                var found = false;
+                for(var i = 0; i <  _ResidentQueue.getSize(); i++){
+                    if(_ResidentQueue.q[i].pId == args){
+                        //add to ready queue if found
+                        _ReadyQueue.enqueue(_ResidentQueue.q[i]);
+                        found = true;
+                        break;
+                        //_CPU.cycle(_ResidentQueue.q[i], _ResidentQueue.q[i]);
+                    }
+                }
+                if(!found){
+                    console.log("not valid pid");
+                }
+            }else {
+                _StdOut.putText("error");
+            }
+            //console.log(_ReadyQueue.dequeue());
+
         }
 
     }
