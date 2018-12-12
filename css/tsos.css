@@ -60,7 +60,7 @@ textarea{
 }
 #logRow{
   height: 50%;
-  wdith: 100%;
+  width: 100%;
   margin: 2% 0;
 }
 #taHostLog{
@@ -102,6 +102,20 @@ textarea{
   border: 2px solid black;
 }
 
+#pcbTable th{
+  width: auto;
+  text-align: center;
+  padding: .8em;
+  border: 2px solid red;
+  display: table-cell;
+}
+#pcbTable td{
+  width: auto;
+  text-align: center;
+  border: 2px solid black;
+}
+
+
 #taProgramInput{
   height: 100%; 
   min-height: 120px; 
@@ -135,6 +149,10 @@ textarea{
   height:200px;
 }
 #memContent, #cpuContent{
+  padding-left: 2%;
+  padding-right: 2%;
+}
+#pcbContent{
   padding-left: 2%;
   padding-right: 2%;
 }

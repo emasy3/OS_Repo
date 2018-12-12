@@ -345,10 +345,13 @@ var TSOS;
             var doc = document.getElementById("taProgramInput").value; //get value of doc
             doc = doc.replace(/\r?\n|\r/g, " ");
             doc = doc.replace(/\s+/g, " ").trim();
+            //regular expression used for testing whether user code is valid
             var regX = /^[\d\sa-fA-F]+$/;
             var isValid = true;
+            //array obtained from doc splitting at spaces
             var arr = doc.split(" ");
             var priority = 0;
+            //check priority length for validity
             if (args.length > 1) {
                 _StdOut.putText("Please supply a valid priority number (0 is highest, 1 is default).");
                 return;
@@ -365,8 +368,9 @@ var TSOS;
             //test for invalid character
             for (var i = 0; i < arr.length; i++) {
                 var byteCode = arr[i];
+                //regx from above used to tes our bytecode array
                 if ((regX.test(byteCode) && byteCode.length == 2)) {
-                    /*console.log("Valid byte: " + byteCode)*/ ;
+                    /*console.log("Valid byte: " + byteCode)*/
                 }
                 else {
                     isValid = false;
@@ -378,34 +382,36 @@ var TSOS;
             if (isValid) {
                 _StdOut.putText("Code accepted.. Creating Process");
                 _StdOut.advanceLine();
+                //create new process
                 var program = _ProcessManager.newProcess(arr, priority);
-                TSOS.Control.memUpdate();
-                var a = _Memory.array.toString();
-                console.log(a);
-                console.log(_MMU.parts);
-                console.log(_Memory.array);
+                TSOS.Control.memViewUpdate();
+                TSOS.Control.pcbViewUpdate();
                 console.log(program);
+                console.log(_ResidentQueue);
             }
         };
         Shell.prototype.shellRun = function (args) {
+            //check for a pid
             if (args.length > 0) {
-                console.log(_ResidentQueue.q[0].prState);
-                console.log(_ResidentQueue.q[0].inReg);
-                for (var i = 0; i < _ResidentQueue.q.length; i++) {
+                //used for debug
+                var found = false;
+                for (var i = 0; i < _ResidentQueue.getSize(); i++) {
                     if (_ResidentQueue.q[i].pId == args) {
-                        console.log("Resident Queue: ");
-                        console.log(_ResidentQueue.q);
-                        _ResidentQueue.q[i].prState = 'running';
+                        //add to ready queue if found
                         _ReadyQueue.enqueue(_ResidentQueue.q[i]);
-                        _CPU.cycle(_ResidentQueue.q[i], _ResidentQueue.q[i]);
+                        found = true;
+                        break;
+                        //_CPU.cycle(_ResidentQueue.q[i], _ResidentQueue.q[i]);
                     }
                 }
-                console.log("Ready Queue: ");
-                console.log(_ReadyQueue.q);
+                if (!found) {
+                    console.log("not valid pid");
+                }
             }
             else {
                 _StdOut.putText("error");
             }
+            //console.log(_ReadyQueue.dequeue());
         };
         return Shell;
     }());

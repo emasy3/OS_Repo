@@ -227,6 +227,7 @@ module TSOS {
             for(var i: number = 0; i <= num; i++){
                 this.advanceLine();
             }
+            this.buffer = "";
             this.currentXPosition = 0;
             /*
              * Font size measures from the baseline to the highest point in the font.
@@ -259,6 +260,10 @@ module TSOS {
             this.buffer = this.buffer.slice(0,-1);                                   //cut character from buffer
             var ctx= _DrawingContext;
 
+            if(finalIndx == null){
+                console.log("Nothing to delete");
+                return;
+            }
             //clear letter from canvas
             var letrWidth = ctx.measureText(this.currentFont, this.currentFontSize, finalIndx);
             this.currentXPosition = this.currentXPosition - letrWidth;

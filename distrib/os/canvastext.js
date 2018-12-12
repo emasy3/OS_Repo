@@ -42,7 +42,6 @@ var TSOS;
             return total;
         };
         CanvasTextFunctions.clearChar = function (x, y, width, height, ctx) {
-            console.log(ctx);
             ctx.clearRect(x, y, width, height);
         };
         CanvasTextFunctions.draw = function (ctx, font, size, x, y, str) {
@@ -58,9 +57,17 @@ var TSOS;
                 if (!c) {
                     continue;
                 }
+                console.log("old buffer: " + _Console.oldBuffer);
+                console.log("Canvas linecap: " + ctx.lineWidth);
+                console.log("buffer: " + _Console.buffer.length);
+                console.log("canvas width " + ctx.width);
+                if ((_Canvas.width / _Console.buffer.length) < 11) {
+                    console.log("buffer: " + _Console.buffer);
+                    console.log("buffer: " + ctx.width);
+                    _StdOut.advanceLine();
+                }
                 ctx.beginPath();
                 var penUp = true;
-                var needStroke = 0;
                 for (var j = 0; j < c.points.length; j++) {
                     var a = c.points[j];
                     if (a[0] === -1 && a[1] === -1) {

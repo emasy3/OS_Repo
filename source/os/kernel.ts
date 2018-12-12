@@ -45,7 +45,7 @@ module TSOS {
             // ... more?
             //
             _ProcessManager = new ProcessManager();
-            _MMU = new MemoryManager();
+            _MemoryManager = new MemoryManager();
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
@@ -88,13 +88,28 @@ module TSOS {
                 // TODO: Implement a priority queue based on the IRQ number/id to enforce interrupt priority.
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
+
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 _CPU.cycle();
+                Control.cpuViewUpdate();
+                Control.memViewUpdate();
+                console.log("cycle:")
+                Control.pcbViewUpdate();
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
+                //check ready queue
+                this.checkReady();
             }
         }
 
+        public checkReady(){
+            if(_ReadyQueue.getSize() > 0){
+                _ProcessManager.runProcess();
+
+            }else {
+                _CPU.isExecuting = false;
+            }
+        }
 
         //
         // Interrupt Handling
@@ -111,7 +126,7 @@ module TSOS {
             // Put more here.
         }
 
-        public krnInterruptHandler(irq, params) {
+        public krnInterruptHandler(irq, params?) {
             // This is the Interrupt Handler Routine.  See pages 8 and 560.
             // Trace our entrance here so we can compute Interrupt Latency by analyzing the log file later on. Page 766.
             this.krnTrace("Handling IRQ~" + irq);
@@ -128,8 +143,38 @@ module TSOS {
                     _krnKeyboardDriver.isr(params);   // Kernel mode device driver
                     _StdIn.handleInput();
                     break;
+                case TERMINATEPROG_IRQ:
+                    _ProcessManager.killProcess();
+                    break;
+                case SYSTEMCALL_IRQ:
+                    this.krnSystemCall(params);
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
+            }
+        }
+
+        public krnSystemCall(params){
+            switch (params) {
+                case 1:
+                    //01 in x reg, so print byte in y
+                    _StdOut.putText(_CPU.Yreg.toString());
+                    break;
+                case 2:
+                    //02 in x reg, so print 00-terminate string stored at address in y reg
+                    var byteAddr = _CPU.Yreg + _ProcessManager.currentPCB.partition.ground;
+                    console.log("MemAddress in y reg: " + byteAddr);
+                    ///while loop checks if current byte address is equal to 00
+                    while(_Memory.array[byteAddr = byteAddr] != "00"){
+                        console.log(_Memory.array[byteAddr]);
+
+                        if(_Console.buffer.length  > 59){
+                            _StdOut.advanceLine();
+                        }
+                        _StdOut.putText(_Memory.array[byteAddr]);
+                        byteAddr++
+                    }
+                    break;
             }
         }
 

@@ -14,11 +14,12 @@ var TSOS;
             this.regX = 0;
             this.regY = 0;
             this.regZ = 0;
-            this.part = 0;
+            this.partition = 0;
             this.acc = 0;
             this.inReg = "00";
             this.prgCounter = 0;
             this.priority = 1;
+            this.location = "none";
         }
         Pcb.prototype.toString = function () {
             return this.pId;

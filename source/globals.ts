@@ -19,8 +19,9 @@ const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 100
 
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
-const KEYBOARD_IRQ: number = 1;
-
+const KEYBOARD_IRQ = 1;
+const TERMINATEPROG_IRQ = 2;
+const SYSTEMCALL_IRQ = 3;
 
 //
 // Global Variables
@@ -45,9 +46,10 @@ var _Trace: boolean = true;  // Default the OS trace to be on.
 // The OS Kernel and its queues.
 var _Kernel: TSOS.Kernel;
 
+//queues
 var _ResidentQueue;
 var _ReadyQueue;
-var _Pid;
+
 
 var _KernelInterruptQueue;          // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue: any = null;  // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
@@ -63,7 +65,7 @@ var _OsShell: TSOS.Shell;
 
 //
 // The OS's memory manager
-var _MMU = null;
+var _MemoryManager = null;
 // The OS's process manager
 var _ProcessManager = null;
 

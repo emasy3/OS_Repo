@@ -18,11 +18,11 @@ var TSOS;
     var Cpu = /** @class */ (function () {
         function Cpu(PC, Ireg, Acc, Xreg, Yreg, Zflag, isExecuting) {
             if (PC === void 0) { PC = 0; }
-            if (Ireg === void 0) { Ireg = ""; }
-            if (Acc === void 0) { Acc = ""; }
-            if (Xreg === void 0) { Xreg = ""; }
+            if (Ireg === void 0) { Ireg = 0; }
+            if (Acc === void 0) { Acc = 0; }
+            if (Xreg === void 0) { Xreg = 0; }
             if (Yreg === void 0) { Yreg = 0; }
-            if (Zflag === void 0) { Zflag = ""; }
+            if (Zflag === void 0) { Zflag = 0; }
             if (isExecuting === void 0) { isExecuting = false; }
             this.PC = PC;
             this.Ireg = Ireg;
@@ -32,196 +32,233 @@ var TSOS;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
         }
-        Cpu.prototype.cycle = function (pcb, part) {
-            this.isExecuting = true;
-            _Kernel.krnTrace('CPU cycle');
-            // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
-            for (var i = pcb.prgCounter; i < part.length; i++) {
-                var fetch = part[i].varX;
-                var fetch1 = part[i].varY;
-                var fetch2 = fetch + fetch1;
-                switch (fetch2.toString()) {
+        Cpu.prototype.cycle = function () {
+            if (_MemoryManager.checkBounds(this.PC)) {
+                // TODO: Accumulate CPU usage and profiling statistics here.
+                var fetch = _MemoryManager.readMem(this.PC);
+                // Do the real work here. Be sure to set this.isExecuting appropriately
+                _Kernel.krnTrace('CPU cycle: ' + fetch);
+                switch (fetch) {
                     //LDA with cons
                     case "A9":
-                        //get value
-                        var valX = part[i + 1].varX;
-                        var valY = part[i + 1].varY;
+                        console.log("LDA with cons");
                         //execute load
-                        var accU = valX + valY;
-                        pcb.inReg = "A9";
-                        pcb.acc = accU;
-                        pcb.prgCounter = i + 1;
-                        i += 1;
+                        //gets current pcb
+                        var pcb = _ProcessManager.currentPCB;
+                        //set values of pcb and cpu
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        pcb.acc = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.Acc = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
+                        this.PC += 2;
+                        pcb.prgCounter = this.PC;
                         break;
                     //LDA from memory
                     case "AD":
                         console.log("LDA mem command:");
-                        var val = part[i + 1].varX + part[i + 1].varY;
-                        val = val.toString();
-                        var val2 = Number(parseInt(val, 16));
-                        pcb.inReg = "AD";
-                        pcb.prgCounter = i + 2;
-                        i += 2;
-                        var val3 = part[val2 - 1].varX + part[val2 - 1].varY;
-                        pcb.acc = val3;
-                        console.log("Type of val: " + typeof val2);
-                        console.log("Hex value: " + val2);
-                        console.log("Pcb accumulator value: " + pcb.acc);
-                        //console.log(pcb.inReg);
-                        console.log("Memory value at " + val2 + ":" + val3);
+                        //get pcb and set values of of it and cpu
+                        //next byte/s
+                        var val = _MemoryManager.readMem(this.PC + 2) +
+                            _MemoryManager.readMem(this.PC + 1);
+                        //set pcb and cpu
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.acc = _MemoryManager.readMem(parseInt(val, 16));
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        this.Acc = _MemoryManager.readMem(parseInt(val, 16));
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.PC += 3;
+                        pcb.prgCounter = this.PC;
                         break;
                     //STA
                     case "8D":
                         console.log("STA command:");
-                        var val = part[i + 1].varX + part[i + 1].varY;
-                        val = val.toString();
-                        var val2 = Number(parseInt(val, 16));
-                        var test = false;
-                        if (val2 == 0) {
-                            pcb.inReg = "8D";
-                            pcb.prgCounter = i + 2;
-                            i += 2;
-                            console.log("Partition at parameter val before set");
-                            console.log(part[val2]);
-                            part[val2].varX = pcb.acc.charAt(0);
-                            part[val2].varY = pcb.acc.charAt(1);
-                        }
-                        else if (val2 < 257 && val2 > 0) {
-                            pcb.inReg = "8D";
-                            pcb.prgCounter = i + 2;
-                            i += 2;
-                            console.log("Partition at parameter val before set");
-                            console.log(part[val2 - 1]);
-                            part[val2 - 1].varX = pcb.acc.charAt(0);
-                            part[val2 - 1].varY = pcb.acc.charAt(1);
-                            test = true;
-                        }
-                        console.log("Accumulator : " + pcb.acc);
-                        console.log("Partition at parameter val after");
-                        if (test == true) {
-                            console.log(part[val2 - 1]);
-                        }
-                        else {
-                            console.log(part[val2]);
-                        }
+                        //same as above
+                        //gets next byte/s
+                        var memVal = _MemoryManager.readMem(this.PC + 2) +
+                            _MemoryManager.readMem(this.PC + 1);
+                        //acc
+                        var accuVal = parseInt(this.Acc.toString(16), 16);
+                        //write to memory
+                        _MemoryManager.write(parseInt(memVal, 16), accuVal);
+                        //set pcb and cpu
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.PC += 3;
+                        pcb.prgCounter = this.PC;
+                        this.isExecuting = false;
                         break;
                     //ADC adds mem value to accumulator
                     case "6D":
                         console.log("ADC command:");
-                        var val = part[i + 1].varX + part[i + 1].varY;
-                        val = val.toString();
-                        var val2 = Number(parseInt(val, 16));
-                        pcb.inReg = "6D";
-                        pcb.prgCounter = i + 2;
-                        i += 2;
-                        var elemHx = Number(parseInt(part[val2 - 1].varX + part[val2 - 1].varY, 16));
-                        var pcbHx = Number(parseInt(pcb.acc, 16));
-                        var result = Number(pcbHx + elemHx);
-                        pcb.acc = result;
-                        console.log(val2);
-                        console.log(elemHx);
-                        console.log(pcbHx);
-                        console.log(pcb.acc);
+                        var val = _MemoryManager.readMem(this.PC + 2) +
+                            _MemoryManager.readMem(this.PC + 1);
+                        var addr = parseInt(val, 16);
+                        //set pcb and cpu
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.acc = this.Acc + parseInt(_MemoryManager.readMem(addr), 16);
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        // @ts-ignore
+                        this.Acc = this.Acc + parseInt(_MemoryManager.readMem(addr), 16);
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.PC += 3;
+                        pcb.prgCounter = this.PC;
                         break;
                     //LDX loads x reg with cons
                     case "A2":
                         //execute load
                         console.log("LDX command");
-                        pcb.inReg = "A2";
-                        pcb.regX = part[i + 1].varX + part[i + 1].varY;
-                        pcb.prgCounter = i + 1;
-                        i += 1;
-                        console.log("X register: " + pcb.regX);
+                        //same as above
+                        var pcb = _ProcessManager.currentPCB;
+                        //loading x with pc + 1 in memory array
+                        pcb.regX = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        this.Xreg = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.PC += 2;
+                        pcb.prgCounter = this.PC;
                         break;
                     //loads x reg from memory
                     case "AE":
                         //execute load
                         console.log("LDX from memory command");
-                        pcb.inReg = "AE";
-                        var partIndx = Number(parseInt(part[i + 1].varX + part[i + 1].varY, 16));
-                        if (partIndx == 0) {
-                            pcb.regX = part[partIndx].varX + part[partIndx].varY;
-                        }
-                        else {
-                            pcb.regX = part[partIndx - 1].varX + part[partIndx - 1].varY;
-                        }
-                        pcb.prgCounter = i + 2;
-                        i += 2;
-                        console.log("X register: " + pcb.regX);
+                        //next byte/s
+                        var val = _MemoryManager.readMem(this.PC + 2) +
+                            _MemoryManager.readMem(this.PC + 1);
+                        //same as above
+                        var pcb = _ProcessManager.currentPCB;
+                        //loading x with val in mem from byte above
+                        pcb.regX = _MemoryManager.readMem(parseInt(val, 16));
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        this.Xreg = _MemoryManager.readMem(parseInt(val, 16));
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.PC += 3;
+                        pcb.prgCounter = this.PC;
                         break;
                     //LDY
                     case "A0":
                         //load y register with constant
                         console.log("LDY command");
-                        pcb.inReg = "A0";
-                        pcb.regY = part[i + 1].varX + part[i + 1].varY;
-                        pcb.prgCounter = i + 1;
-                        i += 1;
-                        console.log("Y register: " + pcb.regY);
+                        //same as above
+                        //loading y with next byte in mem array
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        pcb.regY = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.Yreg = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
+                        this.PC += 2;
+                        pcb.prgCounter = this.PC;
                         break;
                     //load y register from memory
                     case "AC":
                         //execute load
                         console.log("LDY from memory command");
-                        pcb.inReg = "AC";
-                        var partIndx = Number(parseInt(part[i + 1].varX + part[i + 1].varY, 16));
-                        if (partIndx == 0) {
-                            pcb.regY = part[partIndx].varX + part[partIndx].varY;
-                        }
-                        else {
-                            pcb.regY = part[partIndx - 1].varX + part[partIndx - 1].varY;
-                        }
-                        pcb.prgCounter = i + 2;
-                        i += 2;
-                        console.log("Y register: " + pcb.regY);
+                        var val = _MemoryManager.readMem(this.PC + 2) +
+                            _MemoryManager.readMem(this.PC + 1);
+                        //same as above
+                        //loading y with val found at val byte in memory array
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        pcb.regY = _MemoryManager.readMem(parseInt(val, 16));
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.Yreg = _MemoryManager.readMem(parseInt(val, 16));
+                        this.PC += 3;
+                        pcb.prgCounter = this.PC;
                         break;
                     //NO operation
                     case "EA":
                         console.log("no op");
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.PC++;
+                        pcb.prgCounter = this.PC;
                         break;
                     //BRK
                     case "00":
-                        console.log(part[i]);
-                        return;
-                    //Compare a byte from memory to Xreg
+                        console.log("break system call");
+                        //TODO: create a system call for a process exit using an interrupt
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TERMINATEPROG_IRQ));
+                        break;
+                    //Compare a byte from memory to Xreg, sets ZFlag to one if equal
                     case "EC":
                         //execute load
                         console.log("CPX from memory command");
-                        pcb.inReg = "EC";
-                        var partIndx = Number(parseInt(part[i + 1].varX + part[i + 1].varY, 16));
-                        if (partIndx >= 0) {
-                            var HxVal = Number(parseInt(part[partIndx].varX + part[partIndx].varY, 16));
-                            var HxRegX = Number(parseInt(pcb.regX, 16));
-                            if (HxVal === HxRegX) {
-                                this.Zflag = "00";
-                            }
-                            else {
-                                this.Zflag = "01";
-                            }
+                        var val = _MemoryManager.readMem(this.PC + 2) +
+                            _MemoryManager.readMem(this.PC + 1);
+                        //parseInt for memory Index
+                        var memIndx = parseInt(val, 16);
+                        //read byte from memory to compare
+                        var memByte = parseInt((_MemoryManager.readMem(memIndx)).toString(), 16);
+                        //same work as first few cases
+                        //get current pcb set its values to the cpus
+                        var pcb = _ProcessManager.currentPCB;
+                        //compare and set zflag accordingly
+                        if (memByte == this.Xreg) {
+                            this.Zflag = 1;
+                            pcb.regZ = this.Zflag;
                         }
                         else {
-                            console.log("Invalid hex value");
+                            this.Zflag = 0;
+                            pcb.regZ = this.Zflag;
                         }
-                        pcb.prgCounter = i + 2;
-                        i += 2;
-                        console.log("Y register: " + pcb.regY);
+                        pcb.inReg = _MemoryManager.readMem(this.PC);
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        this.PC += 3;
+                        pcb.prgCounter = this.PC;
                         break;
                     //BNE
                     case "D0":
-                        //branch n bytes if Z flag = 0
+                        console.log("Branch n bytes");
+                        if (this.Zflag == 0) {
+                            //branch n bytes if Z flag = 0
+                            var nBytes = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
+                            this.PC = (this.PC + nBytes + 2) % 256;
+                            console.log("First");
+                        }
+                        else {
+                            this.PC += 2;
+                            console.log("Second");
+                        }
+                        this.Ireg = _MemoryManager.readMem(this.PC);
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.prgCounter = this.PC;
+                        pcb.inReg = this.Ireg;
                         break;
                     //INC
+                    //Increment the value of a byte
                     case "EE":
-                        //Increment the value of a byte
+                        //read bytes
+                        var memVal = _MemoryManager.readMem(this.PC + 2) +
+                            _MemoryManager.readMem(this.PC + 1);
+                        //convert to decimal so it can be fed to memory reader
+                        var index = parseInt(memVal, 16);
+                        //read val at index
+                        var readVal = parseInt(_MemoryManager.readMem(index), 16);
+                        readVal++;
+                        _MemoryManager.write(index, readVal);
+                        console.log("INC command");
+                        this.PC += 3;
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.prgCounter = this.PC;
                         break;
                     //SYS
                     case "FF":
                         //System Call
                         //01 Xreg =print the value of integer stored in Y reg
                         //02 Xreg = print the value of the 00-terminated string stored at the address in the Y register
+                        if (this.Xreg == 1) {
+                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SYSTEMCALL_IRQ, 1));
+                        }
+                        else if (this.Xreg == 2) {
+                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SYSTEMCALL_IRQ, 2));
+                        }
+                        this.PC++;
+                        var pcb = _ProcessManager.currentPCB;
+                        pcb.prgCounter = this.PC;
                         break;
                     default:
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TERMINATEPROG_IRQ));
                         /*pcb.inReg = "00";
                         pcb.acc = "00";
                         console.log("Error");
@@ -229,25 +266,31 @@ var TSOS;
                         */ break;
                 }
             }
-            pcb.prState = "done";
+        };
+        Cpu.prototype.hexCheck = function (val) {
+            //checks an decimal value of and decides whether it needs a leading 0 for display in html or not
+            var hex = "";
+            if (val < 16) {
+                hex += "0";
+            }
+            return hex;
+        };
+        Cpu.prototype.reset = function () {
+            this.PC = 0;
+            this.Ireg = 0;
+            this.Acc = 0;
+            this.Xreg = 0;
+            this.Yreg = 0;
+            this.Zflag = 0;
             this.isExecuting = false;
         };
-        Cpu.prototype.parse = function (str) {
-            var arr = [];
-            var input = str.replace(/\s/g, '');
-            for (var i = 0; i < str.length; i += 2) {
-                //check if current input value or the next value is undefined
-                if (input[i] === undefined) {
-                    break;
-                }
-                else if (input[i + 1] === undefined) {
-                    input += "0";
-                }
-                var pairVal = input[i] + input[i + 1];
-                console.log(pairVal);
-                arr.push(pairVal);
-            }
-            console.log(arr);
+        Cpu.prototype.sync = function (pcb) {
+            this.Acc = pcb.acc;
+            this.PC = pcb.prgCounter;
+            this.Xreg = pcb.regX;
+            this.Yreg = pcb.regY;
+            this.Zflag = pcb.regZ;
+            this.isExecuting = true;
         };
         return Cpu;
     }());

@@ -16,6 +16,8 @@ var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second
 var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 var KEYBOARD_IRQ = 1;
+var TERMINATEPROG_IRQ = 2;
+var SYSTEMCALL_IRQ = 3;
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
@@ -33,9 +35,9 @@ var _FontHeightMargin = 4; // Additional space added to font size when advancing
 var _Trace = true; // Default the OS trace to be on.
 // The OS Kernel and its queues.
 var _Kernel;
+//queues
 var _ResidentQueue;
 var _ReadyQueue;
-var _Pid;
 var _KernelInterruptQueue; // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue = null; // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
 var _KernelBuffers = null; // when clearly 'any' is not what we want. There is likely a better way, but what is it?
@@ -47,7 +49,7 @@ var _Console;
 var _OsShell;
 //
 // The OS's memory manager
-var _MMU = null;
+var _MemoryManager = null;
 // The OS's process manager
 var _ProcessManager = null;
 // At least this OS is not trying to kill you. (Yet.)
