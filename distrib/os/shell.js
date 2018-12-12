@@ -82,8 +82,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "<string> - run all programs loaded in memory or disk");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
+            sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "<string> - run all programs loaded in memory or disk");
+            this.commandList[this.commandList.length] = sc;
             // kill <id> - kills the specified process id.
-            //
+            // quantum <int> — let the user set the Round Robin quantum (measured in cpu cycles)
             // Display the initial prompt.
             this.putPrompt();
         };
