@@ -53,14 +53,16 @@ module TSOS {
             _CPU.reset();
             //clear the partition
             _MemoryManager.clearPart(this.currentPCB.partition.indx);
+            this.currentPCB.prState = "finished";
             //update views(tables)
             Control.memViewUpdate();
             Control.hostLog("Exiting process " + this.currentPCB.pId, "os");
             Control.cpuViewUpdate();
-            //debug log
-            console.log("process cleared");
+            Control.pcbViewUpdate();
             //update current pcb
             this.currentPCB = null;
+            //debug log
+            console.log("process cleared");
 
         }
         
