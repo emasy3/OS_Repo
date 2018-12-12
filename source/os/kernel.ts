@@ -166,19 +166,23 @@ module TSOS {
                     var byteAddr = _CPU.Yreg + _ProcessManager.currentPCB.partition.ground;
                     console.log("MemAddress in y reg: " + byteAddr);
                     ///while loop checks if current byte address is equal to 00
-                    while(_Memory.array[byteAddr = byteAddr] != "00"){
+                    while(_Memory.array[byteAddr] != "00"){
                         console.log(_Memory.array[byteAddr]);
-
-                        if(_Console.buffer.length  > 59){
-                            _StdOut.advanceLine();
-                        }
-                        _StdOut.putText(_Memory.array[byteAddr]);
+                        _Console.buffer+=_Memory.array[byteAddr];
+                        this.functionHelper(_Console.buffer, byteAddr);
                         byteAddr++
                     }
                     break;
             }
         }
+        public functionHelper(buffer, addr){
+            if(buffer.length  > 50){
+                _StdOut.advanceLine();
+            }
+            console.log("functionHelper");
+            _StdOut.putText(_Memory.array[addr]);
 
+        }
         public krnTimerISR() {
             // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {
             // Check multiprogramming parameters and enforce quanta here. Call the scheduler / context switch here if necessary.

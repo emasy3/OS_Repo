@@ -60,10 +60,10 @@ var TSOS;
                 console.log("old buffer: " + _Console.oldBuffer);
                 console.log("Canvas linecap: " + ctx.lineWidth);
                 console.log("buffer: " + _Console.buffer.length);
-                console.log("canvas width " + ctx.width);
-                if ((_Canvas.width / _Console.buffer.length) < 11) {
+                console.log("canvas width " + _DrawingContext.canvas.width);
+                if ((_DrawingContext.canvas.width / _Console.buffer.length) < 11) {
                     console.log("buffer: " + _Console.buffer);
-                    console.log("buffer: " + ctx.width);
+                    console.log("buffer: " + _DrawingContext.canvas.width);
                     _StdOut.advanceLine();
                 }
                 ctx.beginPath();
