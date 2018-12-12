@@ -169,19 +169,18 @@ module TSOS {
                     while(_Memory.array[byteAddr] != "00"){
                         console.log(_Memory.array[byteAddr]);
                         _Console.buffer+=_Memory.array[byteAddr];
-                        this.functionHelper(_Console.buffer, byteAddr);
+                        this.bufferCheck(_Console.buffer, byteAddr);
                         byteAddr++
                     }
                     break;
             }
         }
-        public functionHelper(buffer, addr){
+        public bufferCheck(buffer, addr){
             if(buffer.length  > 50){
                 _StdOut.advanceLine();
             }
             console.log("functionHelper");
             _StdOut.putText(_Memory.array[addr]);
-
         }
         public krnTimerISR() {
             // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {

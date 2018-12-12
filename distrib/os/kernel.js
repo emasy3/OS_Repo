@@ -152,13 +152,13 @@ var TSOS;
                     while (_Memory.array[byteAddr] != "00") {
                         console.log(_Memory.array[byteAddr]);
                         _Console.buffer += _Memory.array[byteAddr];
-                        this.functionHelper(_Console.buffer, byteAddr);
+                        this.bufferCheck(_Console.buffer, byteAddr);
                         byteAddr++;
                     }
                     break;
             }
         };
-        Kernel.prototype.functionHelper = function (buffer, addr) {
+        Kernel.prototype.bufferCheck = function (buffer, addr) {
             if (buffer.length > 50) {
                 _StdOut.advanceLine();
             }

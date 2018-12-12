@@ -162,15 +162,6 @@ module TSOS {
                 if (!c) {
                     continue;
                 }
-                console.log("old buffer: "+ _Console.oldBuffer);
-                console.log("Canvas linecap: " + ctx.lineWidth);
-                console.log("buffer: "+ _Console.buffer.length);
-                console.log("canvas width " + _DrawingContext.canvas.width);
-                if( (_DrawingContext.canvas.width/_Console.buffer.length) < 11){
-                    console.log("buffer: " + _Console.buffer);
-                    console.log("buffer: " + _DrawingContext.canvas.width);
-                    _StdOut.advanceLine();
-                }
                 ctx.beginPath();
                 var penUp = true;
                 for (var j = 0; j < c.points.length; j++) {

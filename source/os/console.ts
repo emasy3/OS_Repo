@@ -71,12 +71,20 @@ module TSOS {
                     this.historyRecall(chr);
                 }
                 else{
+                    //check if buffer length is at its limit
+                    if((_DrawingContext.canvas.width/_Console.buffer.length) < 10.8){
+                        _StdOut.advanceLine();
+                    }
                     // This is a "normal" character, so ...
-                    // ... draw it on the screen...
                     this.putText(chr);
+                    // ... draw it on the screen...
                     // ... and add it to our buffer.
                     this.buffer += chr;
                 }
+                console.log("old buffer: "+ _Console.oldBuffer);
+                console.log("buffer lengt: "+ _Console.buffer.length);
+                console.log("current buffert: "+ _Console.buffer);
+                console.log("canvas width " + _DrawingContext.canvas.width);
                 // TODO: Write a case for Ctrl-C.
             }
         }
@@ -258,6 +266,7 @@ module TSOS {
         public delChar(): void {
             var finalIndx = this.buffer[this.buffer.length - 1];                     //save final indx
             this.buffer = this.buffer.slice(0,-1);                                   //cut character from buffer
+            console.log("buffer: " + this.buffer.length);
             var ctx= _DrawingContext;
 
             if(finalIndx == null){
