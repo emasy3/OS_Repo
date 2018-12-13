@@ -34,6 +34,7 @@
    <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
    <script type="text/javascript" src="distrib/os/pcb.js"></script>
    <script type="text/javascript" src="distrib/os/processManager.js"></script>
+    <script type="text/javascript" src="distrib/os/scheduler.js"></script>
 
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
@@ -148,6 +149,35 @@
                         </textarea>
                     </div>
                     <br>
+                    <div class="card" id="" style="overflow-x:auto;">
+                        <div class="card-header-title">
+                            Ready Queue
+                        </div>
+                        <div class="card-content"
+                             style="padding: 0;">
+                            <table
+                                    id =""
+                                    style = "color: black; width: 100%; padding: 0; margin: 0;"
+                                    class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Pid</th>
+                                    <th>State</th>
+                                    <th>Location</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="cpuContent" style="width:inherit;">
+                                <tr>
+                                    <td>00</td>
+                                    <td>00</td>
+                                    <td>00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
                     <div class="columns">
 
                         <div class="column is-half" style="" id="memColumn">
@@ -159,8 +189,7 @@
                                 </header>
                                 <textarea name="taProgramInput"
                                           id  ="taProgramInput"
-                                >A2 02 A0 20 A9 07 8D 08 00 FF 00 A0 FF AF A9 3D AF AE 00 00 AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF AF DD DD
-                                </textarea>
+                                >A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</textarea>
                             </div>
                         </div>
                     </div>

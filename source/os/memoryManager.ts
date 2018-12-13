@@ -29,7 +29,7 @@ module TSOS {
                 this.parts[i].isEmpty = true;
             }
         }
-    //loads to given partition
+        //loads to given partition
         public  load(code, partition): void {
             let myPart = partition;
             //counter for i
@@ -41,7 +41,6 @@ module TSOS {
             }
             this.parts[myPart].isEmpty = false;
 
-                        
         }
     
         //get and return available partition

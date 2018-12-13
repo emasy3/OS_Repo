@@ -41,6 +41,7 @@ var TSOS;
             //
             _ProcessManager = new TSOS.ProcessManager();
             _MemoryManager = new TSOS.MemoryManager();
+            _Scheduler = new TSOS.Scheduler();
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();
@@ -80,23 +81,19 @@ var TSOS;
             else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 _CPU.cycle();
                 TSOS.Control.cpuViewUpdate();
+                //check scheduler
+                _Scheduler.check();
                 TSOS.Control.memViewUpdate();
                 TSOS.Control.pcbViewUpdate();
-                console.log("cycle:");
+                //console.log("cycle:");
                 //Control.pcbViewUpdate();
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
+                _Scheduler.check();
+                //console.log("not executing");
+                //console.log(_ReadyQueue.q);
                 //check ready queue
-                this.checkReady();
-            }
-        };
-        Kernel.prototype.checkReady = function () {
-            if (_ReadyQueue.getSize() > 0) {
-                _ProcessManager.runProcess();
-            }
-            else {
-                _CPU.isExecuting = false;
             }
         };
         //
@@ -134,28 +131,50 @@ var TSOS;
                 case SYSTEMCALL_IRQ:
                     this.krnSystemCall(params);
                     break;
+                case CONTEXTSWITCH_IRQ:
+                    //_Mode = 0;
+                    TSOS.Control.hostLog("Switching", "os");
+                    TSOS.Kernel.krnContextSwitch();
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }
+        };
+        Kernel.krnContextSwitch = function () {
+            _CPU.reset();
+            console.log("worked");
+            //save state of running process
+            //_ProcessManager.saveState();
+            _Scheduler.counter = 0;
+            //put the running process back on the ready queue
+            _ReadyQueue.enqueue(_ProcessManager.currentPCB);
+            _ProcessManager.currentPCB.prState = "ready";
+            _ProcessManager.runProcess();
         };
         Kernel.prototype.krnSystemCall = function (params) {
             switch (params) {
                 case 1:
                     //01 in x reg, so print byte in y
-                    _StdOut.putText(_CPU.Yreg.toString());
+                    var num = parseInt(_CPU.Yreg.toString(), 16);
+                    _StdOut.putText(num.toString());
+                    _StdOut.advanceLine();
                     break;
                 case 2:
                     //02 in x reg, so print 00-terminate string stored at address in y reg
                     var byteAddr = _CPU.Yreg + _ProcessManager.currentPCB.partition.ground;
-                    console.log("MemAddress in y reg: " + byteAddr);
+                    //console.log("MemAddress in y reg: " + byteAddr);
                     ///while loop checks if current byte address is equal to 00
+                    var arr = [];
                     while (_Memory.array[byteAddr] != "00") {
                         //console.log(_Memory.array[byteAddr]);
-                        _Console.buffer += _Memory.array[byteAddr];
-                        this.bufferCheck(_Console.buffer, byteAddr);
+                        arr.push(parseInt(_Memory.array[byteAddr], 16));
+                        //_Console.buffer+=_Memory.array[byteAddr];
+                        //this.bufferCheck(_Console.buffer, byteAddr);
                         byteAddr++;
                     }
-                    _StdOut.advanceLine(1);
+                    var chars = arr.map(function (x) { return String.fromCharCode(x); });
+                    var str = chars.join("");
+                    _StdOut.putText(str);
                     break;
             }
         };
@@ -163,8 +182,8 @@ var TSOS;
             if (buffer.length > 50) {
                 _StdOut.advanceLine();
             }
-            console.log("functionHelper");
-            _StdOut.putText(_Memory.array[addr]);
+            //console.log("functionHelper");
+            _StdOut.putText(String.fromCharCode(_Memory.array[addr]));
         };
         Kernel.prototype.krnTimerISR = function () {
             // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {
@@ -208,7 +227,7 @@ var TSOS;
             // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
             _StdOut.advanceLine(20);
             TSOS.Utils.changeColor("#4C4CFF");
-            console.log("hi");
+            //console.log("hi");
             _StdOut.putText("OS ERROR - TRAP: " + msg);
             this.krnShutdown();
         };

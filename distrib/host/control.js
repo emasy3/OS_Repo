@@ -176,13 +176,13 @@ var TSOS;
             var pcbTable = document.getElementById("pcbTable");
             if (pcbTable.rows.length - 1 === _ResidentQueue.q.length) {
                 this.pcbRowUpdate(pcbTable);
-                console.log("first");
+                //console.log("first");
             }
             else {
                 //if it is, add a new row and do the work and return
                 this.pcbNewRow(pcbTable);
-                console.log("resident q length: " + _ResidentQueue.q.length);
-                console.log("pcb table length-1: " + (pcbTable.rows.length - 1));
+                //console.log("resident q length: " + _ResidentQueue.q.length);
+                //console.log("pcb table length-1: " + (pcbTable.rows.length-1));
             }
         };
         Control.pcbRowUpdate = function (table) {
@@ -234,7 +234,7 @@ var TSOS;
                 var cell8 = cells[9];
                 var zHx = _CPU.hexCheck(program.regZ);
                 cell8.innerHTML = zHx + program.regZ.toString(16).toUpperCase();
-                console.log("rowIpdated");
+                //console.log("rowIpdated");
             }
         };
         Control.pcbNewRow = function (table) {
@@ -282,7 +282,7 @@ var TSOS;
                 var cell8 = row.insertCell(9);
                 var zHx = _CPU.hexCheck(program.regZ);
                 cell8.innerHTML = zHx + program.regZ.toString(16).toUpperCase();
-                console.log("worked");
+                //console.log("worked");
             }
         };
         return Control;

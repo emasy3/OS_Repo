@@ -18,6 +18,7 @@ var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt prior
 var KEYBOARD_IRQ = 1;
 var TERMINATEPROG_IRQ = 2;
 var SYSTEMCALL_IRQ = 3;
+var CONTEXTSWITCH_IRQ = 4;
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
@@ -52,6 +53,7 @@ var _OsShell;
 var _MemoryManager = null;
 // The OS's process manager
 var _ProcessManager = null;
+var _Scheduler = null;
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
 // Global Device Driver Objects - page 12

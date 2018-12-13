@@ -7,6 +7,10 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+.navbar{
+  height: 4%!important;
+  min-height: 1rem!important;
+}
 
 h1 {
   color: black;

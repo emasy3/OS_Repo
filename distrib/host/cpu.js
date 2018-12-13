@@ -41,7 +41,7 @@ var TSOS;
                 switch (fetch) {
                     //LDA with cons
                     case "A9":
-                        console.log("LDA with cons");
+                        //console.log("LDA with cons");
                         //execute load
                         //gets current pcb
                         var pcb = _ProcessManager.currentPCB;
@@ -55,7 +55,7 @@ var TSOS;
                         break;
                     //LDA from memory
                     case "AD":
-                        console.log("LDA mem command:");
+                        //console.log("LDA mem command:");
                         //get pcb and set values of of it and cpu
                         //next byte/s
                         var val = _MemoryManager.readMem(this.PC + 2) +
@@ -71,7 +71,7 @@ var TSOS;
                         break;
                     //STA
                     case "8D":
-                        console.log("STA command:");
+                        //console.log("STA command:");
                         //same as above
                         //gets next byte/s
                         var memVal = _MemoryManager.readMem(this.PC + 2) +
@@ -89,7 +89,7 @@ var TSOS;
                         break;
                     //ADC adds mem value to accumulator
                     case "6D":
-                        console.log("ADC command:");
+                        //console.log("ADC command:");
                         var val = _MemoryManager.readMem(this.PC + 2) +
                             _MemoryManager.readMem(this.PC + 1);
                         var addr = parseInt(val, 16);
@@ -106,7 +106,7 @@ var TSOS;
                     //LDX loads x reg with cons
                     case "A2":
                         //execute load
-                        console.log("LDX command");
+                        //console.log("LDX command");
                         //same as above
                         var pcb = _ProcessManager.currentPCB;
                         //loading x with pc + 1 in memory array
@@ -120,7 +120,7 @@ var TSOS;
                     //loads x reg from memory
                     case "AE":
                         //execute load
-                        console.log("LDX from memory command");
+                        //console.log("LDX from memory command");
                         //next byte/s
                         var val = _MemoryManager.readMem(this.PC + 2) +
                             _MemoryManager.readMem(this.PC + 1);
@@ -137,7 +137,7 @@ var TSOS;
                     //LDY
                     case "A0":
                         //load y register with constant
-                        console.log("LDY command");
+                        //console.log("LDY command");
                         //same as above
                         //loading y with next byte in mem array
                         var pcb = _ProcessManager.currentPCB;
@@ -151,7 +151,7 @@ var TSOS;
                     //load y register from memory
                     case "AC":
                         //execute load
-                        console.log("LDY from memory command");
+                        //console.log("LDY from memory command");
                         var val = _MemoryManager.readMem(this.PC + 2) +
                             _MemoryManager.readMem(this.PC + 1);
                         //same as above
@@ -166,7 +166,7 @@ var TSOS;
                         break;
                     //NO operation
                     case "EA":
-                        console.log("no op");
+                        //console.log("no op");
                         var pcb = _ProcessManager.currentPCB;
                         pcb.inReg = _MemoryManager.readMem(this.PC);
                         this.Ireg = _MemoryManager.readMem(this.PC);
@@ -175,14 +175,14 @@ var TSOS;
                         break;
                     //BRK
                     case "00":
-                        console.log("break system call");
+                        //console.log("break system call");
                         //TODO: create a system call for a process exit using an interrupt
                         _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TERMINATEPROG_IRQ));
                         break;
                     //Compare a byte from memory to Xreg, sets ZFlag to one if equal
                     case "EC":
                         //execute load
-                        console.log("CPX from memory command");
+                        //console.log("CPX from memory command");
                         var val = _MemoryManager.readMem(this.PC + 2) +
                             _MemoryManager.readMem(this.PC + 1);
                         //parseInt for memory Index
@@ -208,16 +208,16 @@ var TSOS;
                         break;
                     //BNE
                     case "D0":
-                        console.log("Branch n bytes");
+                        //console.log("Branch n bytes");
                         if (this.Zflag == 0) {
                             //branch n bytes if Z flag = 0
                             var nBytes = parseInt(_MemoryManager.readMem(this.PC + 1), 16);
                             this.PC = (this.PC + nBytes + 2) % 256;
-                            console.log("First");
+                            //console.log("First");
                         }
                         else {
                             this.PC += 2;
-                            console.log("Second");
+                            //console.log("Second");
                         }
                         this.Ireg = _MemoryManager.readMem(this.PC);
                         var pcb = _ProcessManager.currentPCB;
@@ -236,7 +236,7 @@ var TSOS;
                         var readVal = parseInt(_MemoryManager.readMem(index), 16);
                         readVal++;
                         _MemoryManager.write(index, readVal);
-                        console.log("INC command");
+                        //console.log("INC command");
                         this.PC += 3;
                         var pcb = _ProcessManager.currentPCB;
                         pcb.prgCounter = this.PC;
@@ -260,8 +260,8 @@ var TSOS;
                         _KernelInterruptQueue.enqueue(new TSOS.Interrupt(TERMINATEPROG_IRQ));
                         /*pcb.inReg = "00";
                         pcb.acc = "00";
-                        console.log("Error");
-                        console.log(fetch2 + " is not a valid op code");
+                        //console.log("Error");
+                        //console.log(fetch2 + " is not a valid op code");
                         */ break;
                 }
             }

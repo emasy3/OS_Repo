@@ -81,10 +81,10 @@ module TSOS {
                     // ... and add it to our buffer.
                     this.buffer += chr;
                 }
-                console.log("old buffer: "+ _Console.oldBuffer);
-                console.log("buffer lengt: "+ _Console.buffer.length);
-                console.log("current buffert: "+ _Console.buffer);
-                console.log("canvas width " + _DrawingContext.canvas.width);
+                //console.log("old buffer: "+ _Console.oldBuffer);
+                //console.log("buffer lengt: "+ _Console.buffer.length);
+                //console.log("current buffert: "+ _Console.buffer);
+                //console.log("canvas width " + _DrawingContext.canvas.width);
                 // TODO: Write a case for Ctrl-C.
             }
         }
@@ -266,7 +266,7 @@ module TSOS {
         public delChar(): void {
             var finalIndx = this.buffer[this.buffer.length - 1];                     //save final indx
             this.buffer = this.buffer.slice(0,-1);                                   //cut character from buffer
-            console.log("buffer: " + this.buffer.length);
+            //console.log("buffer: " + this.buffer.length);
             var ctx= _DrawingContext;
 
             if(finalIndx == null){

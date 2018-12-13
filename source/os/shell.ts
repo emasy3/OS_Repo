@@ -136,20 +136,33 @@ module TSOS {
                                     "clearmem",
                                     "<string> - clear partitions");
             this.commandList[this.commandList.length] = sc;
-            //clear memory
+            //runall
             sc = new ShellCommand(this.shellRunAll,
                                     "runall",
                                     "<string> - run all programs loaded in memory or disk");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
-            sc = new ShellCommand(this.shellRunAll,
-                                    "runall",
-                                    "<string> - run all programs loaded in memory or disk");
+            sc = new ShellCommand(this.shellPs,
+                                    "ps",
+                                    "<string> - show all programs loaded in memory or disk");
             this.commandList[this.commandList.length] = sc;
 
             // kill <id> - kills the specified process id.
-
+            sc = new ShellCommand(this.shellKill,
+                                    "kill",
+                                    "<id> - show all programs loaded in memory or disk");
+            this.commandList[this.commandList.length] = sc;
             // quantum <int> — let the user set the Round Robin quantum (measured in cpu cycles)
+            sc = new ShellCommand(this.shellSetSchedule,
+                                "setschedule",
+                                "<id> - show all programs loaded in memory or disk");
+            this.commandList[this.commandList.length] = sc;
+            //setschedule algorithm
+            sc = new ShellCommand(this.shellSetQuantum,
+                                    "quantum",
+                                    "<id> - show all programs loaded in memory or disk");
+            this.commandList[this.commandList.length] = sc;
+
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -466,14 +479,14 @@ module TSOS {
             }
             //check validity marker
             if(isValid){
-                _StdOut.putText("Code accepted.. Creating Process");
-                _StdOut.advanceLine();
+                _StdOut.putText("Code accepted.. attempting to creating Process");
+                _StdOut.advanceLine(1);
                 //create new process
                 var program = _ProcessManager.newProcess(arr, priority);
                 Control.memViewUpdate();
                 Control.pcbViewUpdate();
-                console.log(program);
-                console.log(_ResidentQueue);
+                //console.log(program);
+                //console.log(_ResidentQueue);
             }
         }
 
@@ -484,6 +497,10 @@ module TSOS {
                 var found = false;
                 for(var i = 0; i <  _ResidentQueue.getSize(); i++){
                     if(_ResidentQueue.q[i].pId == args){
+                        //check if the process is finished(killed)
+                        if(_ResidentQueue.q[i].prState == "finished"){
+                            return _StdOut.putText("Will not run. Process: "+ _ResidentQueue.q[i].pId + " is finished");
+                        }
                         //add to ready queue if found
                         _ReadyQueue.enqueue(_ResidentQueue.q[i]);
                         found = true;
@@ -491,24 +508,97 @@ module TSOS {
                         //_CPU.cycle(_ResidentQueue.q[i], _ResidentQueue.q[i]);
                     }
                 }
-                if(!found){
-                    console.log("not valid pid");
+                if(found == false){
+                    _StdOut.putText("Program id: " + args.toString() +" is invalid.");
                 }
             }else {
                 _StdOut.putText("error");
             }
-            //console.log(_ReadyQueue.dequeue());
         }
         public shellClearMem(){
+            _StdOut.putText("Clearing memory");
+            _StdOut.advanceLine();
             for(var i = 0; i < _MemoryManager.parts.length; i++){
                 _MemoryManager.clearPart(0);
+                _StdOut.putText("...");
+                _StdOut.putText(" ");
             }
+            _StdOut.advanceLine();
+            _StdOut.putText("Memory cleared");
         }
         public shellRunAll(){
+            //_Scheduler.sortByPriority();
             for(var i = 0; i < _ResidentQueue.q.length; i++){
-                _ReadyQueue.enqueue(_ResidentQueue.q[i]);
+                if(_ResidentQueue.q[i].prState == "new"){
+                    _ResidentQueue.q[i].prState = "ready";
+                    _ReadyQueue.enqueue(_ResidentQueue.q[i]);
+
+                }
+            }
+            if(_ResidentQueue.q.length == 0){
+                _StdOut.putText("No new programs to run");
+            }
+            //_Scheduler.sortByPriority();
+        }
+        public shellPs(){
+            for(var i = 0; i < _ResidentQueue.q.length; i++){
+                _StdOut.putText(String("Program "+ _ResidentQueue.q[i]) + " loaded in " + _ResidentQueue.q[i].location.toString());
+                _StdOut.advanceLine(1);
+
+            }
+            if(_ResidentQueue.q.length == 0){
+                _StdOut.putText("No processes in job Queue.");
+                _StdOut.advanceLine();
+                _StdOut.putText("Run load to load a program into memory.");
+                _StdOut.advanceLine();
             }
         }
+        public shellKill(args){
+            if(args.length > 2){
+                _StdOut.putText("Please supply a valid pid in decimal 0-9.");
+            }else if(args.length < 3){
+                _ProcessManager.killProcess(args);
+            }
+        }
+        public shellSetSchedule(args){
+            if(args.length == 0){
+                _StdOut.putText("Please enter a valid scheduler");
+                _StdOut.advanceLine();
+                _StdOut.putText("rr - round robin");
+                _StdOut.advanceLine();
+                _StdOut.putText("fcfs - first come first served");
+                _StdOut.advanceLine();
+                _StdOut.putText("priority - priority");
+            }else{
+                switch (args.toString()) {
+                    case "rr":
+                        _Scheduler.algorithm = 1; //round robin
+                        _StdOut.putText("Scheduler set to robin");
+                        break;
+                    case "fcfs":
+                        _Scheduler.algorithm = 2;
+                        _StdOut.putText("Scheduler set to first come first serve");
+                        break;
+                    case "priority":
+                        _Scheduler.algorithm = 3;
+                        _StdOut.putText("Scheduler set to priority");
+                        break;
+                    default:
+                        console.log("default");
+                        break;
+                }
+            }
 
+        }
+        public shellSetQuantum(args){
+            if(/^\d+$/.test(args)){
+                console.log("working");
+                _Scheduler.quantum = Number(args);
+                console.log(_Scheduler.quantum);
+
+            }else {
+                _StdOut.putText("Please supply a vlid quantum");
+            }
+        }
     }
 }

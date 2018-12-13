@@ -22,6 +22,7 @@ const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (inte
 const KEYBOARD_IRQ = 1;
 const TERMINATEPROG_IRQ = 2;
 const SYSTEMCALL_IRQ = 3;
+const CONTEXTSWITCH_IRQ = 4;
 
 //
 // Global Variables
@@ -68,6 +69,7 @@ var _OsShell: TSOS.Shell;
 var _MemoryManager = null;
 // The OS's process manager
 var _ProcessManager = null;
+var _Scheduler = null;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;

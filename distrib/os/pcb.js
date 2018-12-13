@@ -18,7 +18,7 @@ var TSOS;
             this.acc = 0;
             this.inReg = "00";
             this.prgCounter = 0;
-            this.priority = 1;
+            this.priority = 0;
             this.location = "none";
         }
         Pcb.prototype.toString = function () {

@@ -23,6 +23,7 @@ module TSOS {
         public location;
 
         constructor(processId){
+
             this.pId = processId;
             this.prState = "new";
             this.regX = 0;
@@ -32,7 +33,7 @@ module TSOS {
             this.acc = 0;
             this.inReg = "00";
             this.prgCounter = 0;
-            this.priority = 1;
+            this.priority = 0;
             this.location = "none";
         }
         public toString() {
