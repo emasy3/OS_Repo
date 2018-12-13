@@ -38,14 +38,6 @@ var TSOS;
             this.pid++;
             return program;
         };
-        ProcessManager.prototype.saveState = function () {
-            this.currentPCB.prgCounter = _CPU.PC;
-            this.currentPCB.inReg = _CPU.Ireg;
-            this.currentPCB.regX = _CPU.Xreg;
-            this.currentPCB.regY = _CPU.Yreg;
-            this.currentPCB.regZ = _CPU.Zflag;
-            this.currentPCB.acc = _CPU.Acc;
-        };
         //dequeue the readyqueue and sync it with the cpu until its done
         //set its state
         ProcessManager.prototype.runProcess = function () {
