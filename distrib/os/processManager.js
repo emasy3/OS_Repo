@@ -81,12 +81,14 @@ var TSOS;
                 _StdOut.advanceLine();
                 TSOS.Control.hostLog("Exiting process " + pcb.pId, "os");
             }
+            console.log(_ReadyQueue);
             //update views(tables)
             TSOS.Control.memViewUpdate();
             TSOS.Control.cpuViewUpdate();
             TSOS.Control.pcbViewUpdate();
+            //Control.readyQueueUpdate();
             //update current pcb
-            pcb = null;
+            this.currentPCB = null;
             //debug log
             console.log("process cleared");
         };

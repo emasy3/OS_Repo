@@ -97,11 +97,13 @@ module TSOS {
                 _Scheduler.check();
                 Control.memViewUpdate();
                 Control.pcbViewUpdate();
+                Control.readyQueueUpdate();
                 //console.log("cycle:");
                 //Control.pcbViewUpdate();
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
                 _Scheduler.check();
+                Control.readyQueueUpdate();
                 //console.log("not executing");
                 //console.log(_ReadyQueue.q);
                 //check ready queue
@@ -165,11 +167,18 @@ module TSOS {
             //_ProcessManager.saveState();
             _Scheduler.counter = 0;
             //put the running process back on the ready queue
-            _ReadyQueue.enqueue(_ProcessManager.currentPCB);
-            _ProcessManager.currentPCB.prState = "ready";
-            _ProcessManager.runProcess();
+            if(_ProcessManager.currentPCB.prState != "finished"){
+                _ReadyQueue.enqueue(_ProcessManager.currentPCB);
+                _ProcessManager.currentPCB.prState = "ready";
+                _ProcessManager.runProcess();
+            }else {
+                console.log("running process is finished");
+                //Control.readyQueueUpdate();
+                _Scheduler.check();
+            }
 
         }
+
 
         public krnSystemCall(params){
             switch (params) {

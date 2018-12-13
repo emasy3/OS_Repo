@@ -85,12 +85,14 @@ var TSOS;
                 _Scheduler.check();
                 TSOS.Control.memViewUpdate();
                 TSOS.Control.pcbViewUpdate();
+                TSOS.Control.readyQueueUpdate();
                 //console.log("cycle:");
                 //Control.pcbViewUpdate();
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");
                 _Scheduler.check();
+                TSOS.Control.readyQueueUpdate();
                 //console.log("not executing");
                 //console.log(_ReadyQueue.q);
                 //check ready queue
@@ -147,9 +149,16 @@ var TSOS;
             //_ProcessManager.saveState();
             _Scheduler.counter = 0;
             //put the running process back on the ready queue
-            _ReadyQueue.enqueue(_ProcessManager.currentPCB);
-            _ProcessManager.currentPCB.prState = "ready";
-            _ProcessManager.runProcess();
+            if (_ProcessManager.currentPCB.prState != "finished") {
+                _ReadyQueue.enqueue(_ProcessManager.currentPCB);
+                _ProcessManager.currentPCB.prState = "ready";
+                _ProcessManager.runProcess();
+            }
+            else {
+                console.log("running process is finished");
+                //Control.readyQueueUpdate();
+                _Scheduler.check();
+            }
         };
         Kernel.prototype.krnSystemCall = function (params) {
             switch (params) {

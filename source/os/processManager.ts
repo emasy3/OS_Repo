@@ -86,12 +86,14 @@ module TSOS {
                 _StdOut.advanceLine();
                 Control.hostLog("Exiting process " + pcb.pId, "os");
             }
+            console.log(_ReadyQueue);
             //update views(tables)
             Control.memViewUpdate();
             Control.cpuViewUpdate();
             Control.pcbViewUpdate();
+            //Control.readyQueueUpdate();
             //update current pcb
-            pcb = null;
+            this.currentPCB = null;
             //debug log
             console.log("process cleared");
 

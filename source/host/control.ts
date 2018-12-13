@@ -195,6 +195,7 @@ module TSOS {
             cells[5].innerHTML = zregHx +  _CPU.Zflag.toString(16).toUpperCase();
 
         }
+
         public static pcbViewUpdate(){
             //check if the tables rows minus the header row, is less then the length of our resident queue of pcbs
             var pcbTable = document.getElementById("pcbTable");
@@ -310,6 +311,39 @@ module TSOS {
                 var zHx = _CPU.hexCheck(program.regZ);
                 cell8.innerHTML = zHx + program.regZ.toString(16).toUpperCase();
                 //console.log("worked");
+            }
+        }
+
+        public static readyQueueUpdate(){
+            var rdyTable = document.getElementById("rdyTable");
+            var queue = [];
+
+            while(rdyTable.rows.length > 1){
+                rdyTable.deleteRow(rdyTable.rows.length-1);
+            }
+            for(var i = 0; i < _ReadyQueue.getSize(); i++){
+                var program = _ReadyQueue.q[i];
+                queue.push(program);
+            }
+            if(_ProcessManager.currentPCB != null){
+                queue.push(_ProcessManager.currentPCB);
+            }
+            while (queue.length > 0){
+                var newPcb = queue.pop();
+                var row = rdyTable.insertRow();
+                // PID
+                var cell0 = row.insertCell();
+                cell0.innerHTML = newPcb.pId.toString();
+                // State
+                var cell2 = row.insertCell();
+                cell2.innerHTML = newPcb.prState;
+                // Priority
+                var cell3 = row.insertCell();
+                cell3.innerHTML = newPcb.priority.toString();
+                // Location
+                var cell4 = row.insertCell();
+                cell4.innerHTML = newPcb.location.toString();
+
             }
         }
     }

@@ -285,6 +285,36 @@ var TSOS;
                 //console.log("worked");
             }
         };
+        Control.readyQueueUpdate = function () {
+            var rdyTable = document.getElementById("rdyTable");
+            var queue = [];
+            while (rdyTable.rows.length > 1) {
+                rdyTable.deleteRow(rdyTable.rows.length - 1);
+            }
+            for (var i = 0; i < _ReadyQueue.getSize(); i++) {
+                var program = _ReadyQueue.q[i];
+                queue.push(program);
+            }
+            if (_ProcessManager.currentPCB != null) {
+                queue.push(_ProcessManager.currentPCB);
+            }
+            while (queue.length > 0) {
+                var newPcb = queue.pop();
+                var row = rdyTable.insertRow();
+                // PID
+                var cell0 = row.insertCell();
+                cell0.innerHTML = newPcb.pId.toString();
+                // State
+                var cell2 = row.insertCell();
+                cell2.innerHTML = newPcb.prState;
+                // Priority
+                var cell3 = row.insertCell();
+                cell3.innerHTML = newPcb.priority.toString();
+                // Location
+                var cell4 = row.insertCell();
+                cell4.innerHTML = newPcb.location.toString();
+            }
+        };
         return Control;
     }());
     TSOS.Control = Control;
