@@ -1,9 +1,7 @@
 Browser-based Operating System in TypeScript
 ============================================
 
-This is the Operating Systems class initial project.
-See http://www.labouseur.com/courses/os/ for details.
-Fork this (or clone, but fork is probably better in case Alan changes anything about the initial project) into your own private repository. Then add Alan (userid Labouseur) as a collaborator.
+This is a browser based operating system that executes hexadecimal op code; one program at a time. 
 
 Setup TypeScript
 ================
