@@ -2,6 +2,7 @@ Browser-based Operating System in TypeScript
 ============================================
 
 This is a browser based operating system that executes hexadecimal op code; one program at a time. 
+Place code in box on broweser app.
 
 Setup TypeScript
 ================
